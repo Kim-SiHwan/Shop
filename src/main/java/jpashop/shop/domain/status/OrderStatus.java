@@ -1,4 +1,5 @@
 package jpashop.shop.domain.status;
 
-public class OrderStatus {
+public enum OrderStatus {
+    ORDER,CANCEL
 }
