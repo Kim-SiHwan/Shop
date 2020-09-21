@@ -1,0 +1,56 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.opg"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="apple-touch-icon" href="icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- icon -->
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+    <script src="js/vendor/modernizr-3.8.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script>window.jQuery || document.write('<script src="@{/js/vendor/jquery-3.4.1.min.js}"><\/script>')</script>
+    <script src="@{js/plugins.js}"></script>
+    <script src="@{js/main.js}"></script>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap-theme.min.css">
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+<div layout:fragment="header" id="header">
+
+</div>
+
+
+<div layout:fragment="content"></div>
+
+
+<div layout:fragment="footer">
+    <h4 style="color: gray; opacity: 0.8">Kim si-hwan</h4>
+</div>
+
+
+<th:block layout:fragment="script"></th:block>
+
+<script th:inline=javascript>
+</script>
+</body>
+
+
+
+
+
+
+</html>
