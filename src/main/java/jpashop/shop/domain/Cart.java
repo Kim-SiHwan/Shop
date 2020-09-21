@@ -25,6 +25,7 @@ public class Cart {
     private int totalQuantity;
 
     @OneToMany
+    @JoinColumn(name = "product_id")
     private List<Product> products = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
