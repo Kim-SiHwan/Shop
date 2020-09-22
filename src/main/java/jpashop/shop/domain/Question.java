@@ -18,6 +18,7 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_id")
     private Long id;
+    private String question;
     private String answer;
     private LocalDateTime createDate;
 
@@ -30,8 +31,9 @@ public class Question {
     private Product product;
 
     @Builder(builderClassName = "createQuestion", builderMethodName = "createQuestion")
-    public Question(Long id, String answer, LocalDateTime createDate) {
+    public Question(Long id,String question, String answer, LocalDateTime createDate) {
         this.id = id;
+        this.question=question;
         this.answer = answer;
         this.createDate = createDate;
     }
