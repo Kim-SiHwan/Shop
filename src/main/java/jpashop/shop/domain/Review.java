@@ -28,4 +28,11 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @Builder(builderClassName = "createReview", builderMethodName = "createReview")
+    public Review(Long id, String content, LocalDateTime createDate) {
+        this.id = id;
+        this.content = content;
+        this.createDate = createDate;
+    }
 }
