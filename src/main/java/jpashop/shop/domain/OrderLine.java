@@ -1,10 +1,11 @@
 package jpashop.shop.domain;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+
 import javax.persistence.*;
 
 
@@ -17,8 +18,8 @@ public class OrderLine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_line_id")
     private Long id;
-    private int totalPrice;
-    private int totalQuantity;
+    private int orderPrice;
+    private int orderQuantity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orders_id")
@@ -28,10 +29,20 @@ public class OrderLine {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    public void addOrders(Orders orders) {
+        this.orders = orders;
+    }
+
+    public void orderCancel(){
+        this.getProduct().addStockQuantity(this.orderQuantity);
+    }
+
+
     @Builder(builderClassName = "createOrderLine", builderMethodName = "createOrderLine")
-    public OrderLine(Long id, int totalPrice, int totalQuantity) {
-        this.id = id;
-        this.totalPrice = totalPrice;
-        this.totalQuantity = totalQuantity;
+    public OrderLine(int orderPrice, int orderQuantity, Product product) {
+        this.orderPrice = orderPrice;
+        this.orderQuantity = orderQuantity;
+        this.product = product;
+        this.product.removeStockQuantity(orderQuantity);
     }
 }
