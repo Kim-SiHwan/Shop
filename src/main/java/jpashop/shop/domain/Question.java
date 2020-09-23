@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -30,10 +31,22 @@ public class Question {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    public void addMember(Member member) {
+        this.member = member;
+    }
+
+    public void addProduct(Product product) {
+        this.product = product;
+    }
+
+    public void addAnswer(String answer){
+        this.answer = answer;
+    }
+
     @Builder(builderClassName = "createQuestion", builderMethodName = "createQuestion")
-    public Question(Long id,String question, String answer, LocalDateTime createDate) {
+    public Question(Long id, String question, String answer, LocalDateTime createDate) {
         this.id = id;
-        this.question=question;
+        this.question = question;
         this.answer = answer;
         this.createDate = createDate;
     }
