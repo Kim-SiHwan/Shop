@@ -31,6 +31,18 @@ public class Cart {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    public void addProducts(Product product) {
+        this.products.add(product);
+    }
+
+    public void removeProducts(List<Product> productList){
+        productList.stream().forEach(p -> this.products.remove(p));
+    }
+
+    public void addMember(Member member) {
+        this.member = member;
+    }
+
     @Builder(builderClassName = "createCart", builderMethodName = "createCart")
     public Cart(Long id, int totalPrice, int totalQuantity) {
         this.id = id;
