@@ -1,6 +1,8 @@
 package jpashop.shop.service;
 
+import jpashop.shop.domain.Cart;
 import jpashop.shop.domain.Member;
+import jpashop.shop.repository.CartRepository;
 import jpashop.shop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,10 +14,15 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final CartRepository cartRepository;
 
     public Long join(Member member){
         validateDuplicateMember(member);
         memberRepository.save(member);
+        Cart cart = Cart.createCart()
+                .build();
+        cart.addMember(member);
+        cartRepository.save(cart);
         return member.getId();
     }
 
