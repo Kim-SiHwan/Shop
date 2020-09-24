@@ -1,19 +1,14 @@
 package jpashop.shop;
 
-import jpashop.shop.domain.Cart;
 import jpashop.shop.domain.Member;
 import jpashop.shop.domain.Product;
 import jpashop.shop.domain.Question;
 import jpashop.shop.domain.memberInfo.Address;
 import jpashop.shop.domain.memberInfo.Info;
-import jpashop.shop.dto.requestDto.CartRequestDto;
 import jpashop.shop.dto.requestDto.QuestionRequestDto;
-import jpashop.shop.repository.CartRepository;
 import jpashop.shop.repository.ProductRepository;
 import jpashop.shop.repository.QuestionRepository;
-import jpashop.shop.service.CartService;
 import jpashop.shop.service.MemberService;
-import jpashop.shop.service.ProductService;
 import jpashop.shop.service.QuestionService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
