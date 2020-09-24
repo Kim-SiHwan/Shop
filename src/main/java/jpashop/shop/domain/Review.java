@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -28,6 +29,15 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    public void addMember(Member member) {
+        this.member = member;
+    }
+
+    public void addProduct(Product product) {
+        this.product = product;
+        this.product.getReviews().add(this);
+    }
 
     @Builder(builderClassName = "createReview", builderMethodName = "createReview")
     public Review(Long id, String content, LocalDateTime createDate) {
