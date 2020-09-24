@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -23,6 +25,9 @@ public class Product {
     private int price;
     private int quantity;
     private LocalDateTime createDate;
+
+    @OneToMany(mappedBy = "product")
+    private List<Review> reviews = new ArrayList<>();
 
     public void changeProductText(String title, String content) {
         this.title = title;

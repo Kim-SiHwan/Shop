@@ -1,6 +1,9 @@
 package jpashop.shop;
 
 import jpashop.shop.domain.Product;
+import jpashop.shop.dto.pagination.PageMaker;
+import jpashop.shop.dto.pagination.PageVo;
+import jpashop.shop.dto.responseDto.ProductResponseDto;
 import jpashop.shop.repository.ProductRepository;
 import jpashop.shop.service.ProductService;
 import org.junit.Test;
@@ -50,25 +53,53 @@ public class ProductServiceTest {
     @Test
     public void 상품목록 (){
     //given
-        for(int i=1; i<=3; i++){
+        for(int i=1; i<=5; i++){
             Product product = Product.createProduct()
-                    .title("SampleTitle"+i)
-                    .content("SampleContent"+i)
+                    .title("SampleTitle의자"+i)
+                    .content("SampleContent의자"+i)
                     .createDate(LocalDateTime.now())
                     .price(i*10000)
                     .quantity(i*100)
-                    .type("Tee")
+                    .type("의자")
+                    .url("path")
+                    .build();
+            productRepository.save(product);
+        }
+        for(int i=1; i<=15; i++){
+            Product product = Product.createProduct()
+                    .title("SampleTitle책상"+i)
+                    .content("SampleContent책상"+i)
+                    .createDate(LocalDateTime.now())
+                    .price(i*10000)
+                    .quantity(i*100)
+                    .type("책상")
+                    .url("path")
+                    .build();
+            productRepository.save(product);
+        }
+        for(int i=1; i<=25; i++){
+            Product product = Product.createProduct()
+                    .title("SampleTitle소파"+i)
+                    .content("SampleContent소파"+i)
+                    .createDate(LocalDateTime.now())
+                    .price(i*10000)
+                    .quantity(i*100)
+                    .type("소파")
                     .url("path")
                     .build();
             productRepository.save(product);
         }
     //when
         List<Product> list = productRepository.findAll();
+        List<List<ProductResponseDto>> typeList = productService.findAllByType();
+        List<Product> descList =productRepository.findTop20ByOrderByIdDesc();
+
     //then
-        assertEquals(3,list.size());
+        assertEquals(45,list.size());
+        //책상타입의 개수
+        assertEquals(10,typeList.get(1).size());
 
-        list.stream().forEach(l -> System.out.println(l.getTitle()));
-
+        descList.stream().forEach(l -> System.out.println(l.getTitle()));
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -91,6 +122,32 @@ public class ProductServiceTest {
     //then
         fail("NoSuchElementException이 발생해야함.");
 
+
+    }
+
+    @Test
+    public void 페이징(){
+    //given
+        for(int i=1; i<=3; i++){
+            Product product = Product.createProduct()
+                    .title("SampleTitle"+i)
+                    .content("SampleContent"+i)
+                    .createDate(LocalDateTime.now())
+                    .price(10000)
+                    .quantity(100)
+                    .type("Tee"+i)
+                    .url("path"+i)
+                    .build();
+            productRepository.save(product);
+        }
+
+        PageVo vo = new PageVo();
+    //when
+        PageMaker pageMaker = productService.findAllByPage(vo);
+
+    //then
+
+        assertEquals(30,pageMaker.getResult().getTotalElements());
 
     }
 

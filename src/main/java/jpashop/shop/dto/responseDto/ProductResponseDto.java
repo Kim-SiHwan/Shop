@@ -12,6 +12,7 @@ public class ProductResponseDto {
     private String url;
     private String type;
     private LocalDateTime createDate;
+    private int reviewCount;
     private int quantity;
     private int price;
 
@@ -21,6 +22,7 @@ public class ProductResponseDto {
         url = product.getUrl();
         type = product.getType();
         createDate = product.getCreateDate();
+        reviewCount  = product.getReviews().size();
         quantity = product.getQuantity();
         price = product.getPrice();
     }
