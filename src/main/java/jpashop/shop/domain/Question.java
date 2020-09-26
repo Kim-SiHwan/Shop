@@ -37,6 +37,7 @@ public class Question {
 
     public void addProduct(Product product) {
         this.product = product;
+        this.product.getQuestions().add(this);
     }
 
     public void addAnswer(String answer){
