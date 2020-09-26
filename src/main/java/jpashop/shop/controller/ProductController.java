@@ -17,13 +17,13 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("/home")
+    @GetMapping("/main")
     public String home(Model model){
         List<List<ProductResponseDto>> typeList = productService.findAllByType();
         model.addAttribute("typeList",typeList);
         List<ProductResponseDto> itemList = productService.findTop20();
         model.addAttribute("itemList",itemList);
-        return "shop/home";
+        return "/shop/main";
     }
 
 

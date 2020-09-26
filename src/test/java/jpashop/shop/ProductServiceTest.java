@@ -53,6 +53,80 @@ public class ProductServiceTest {
     @Test
     public void 상품목록 (){
     //given
+       createProduct();
+    //when
+        List<Product> list = productRepository.findAll();
+        List<List<ProductResponseDto>> typeList = productService.findAllByType();
+        List<Product> descList =productRepository.findTop20ByOrderByIdDesc();
+
+    //then
+        assertEquals(45,list.size());
+        //책상타입의 개수
+        assertEquals(10,typeList.get(1).size());
+
+        descList.stream().forEach(l -> System.out.println(l.getTitle()));
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void 상품삭제 (){
+    //given
+        Product product = Product.createProduct()
+                .title("SampleTitle")
+                .content("SampleContent")
+                .createDate(LocalDateTime.now())
+                .price(10000)
+                .quantity(100)
+                .type("Tee")
+                .url("path")
+                .build();
+        productRepository.save(product);
+    //when
+        Long productId = product.getId();
+        productRepository.delete(product);
+        Product getProduct =productRepository.findById(productId).get();
+    //then
+        fail("NoSuchElementException이 발생해야함.");
+
+
+    }
+    @Test
+    public void 검색 (){
+    //given
+        createProduct();
+    //when
+        List<Product> findProducts = (List<Product>) productRepository.findAll(productRepository.makePredicate("소파"));
+    //then
+        findProducts.stream().forEach(l -> System.out.println(l.getTitle()));
+
+    }
+
+    @Test
+    public void 페이징(){
+    //given
+        for(int i=1; i<=3; i++){
+            Product product = Product.createProduct()
+                    .title("SampleTitle"+i)
+                    .content("SampleContent"+i)
+                    .createDate(LocalDateTime.now())
+                    .price(10000)
+                    .quantity(100)
+                    .type("Tee"+i)
+                    .url("path"+i)
+                    .build();
+            productRepository.save(product);
+        }
+
+        PageVo vo = new PageVo();
+    //when
+        PageMaker pageMaker = productService.findAllByPage(vo);
+
+    //then
+
+        assertEquals(30,pageMaker.getResult().getTotalElements());
+
+    }
+
+    public void createProduct(){
         for(int i=1; i<=5; i++){
             Product product = Product.createProduct()
                     .title("SampleTitle의자"+i)
@@ -89,66 +163,6 @@ public class ProductServiceTest {
                     .build();
             productRepository.save(product);
         }
-    //when
-        List<Product> list = productRepository.findAll();
-        List<List<ProductResponseDto>> typeList = productService.findAllByType();
-        List<Product> descList =productRepository.findTop20ByOrderByIdDesc();
-
-    //then
-        assertEquals(45,list.size());
-        //책상타입의 개수
-        assertEquals(10,typeList.get(1).size());
-
-        descList.stream().forEach(l -> System.out.println(l.getTitle()));
-    }
-
-    @Test(expected = NoSuchElementException.class)
-    public void 상품삭제 (){
-    //given
-        Product product = Product.createProduct()
-                .title("SampleTitle")
-                .content("SampleContent")
-                .createDate(LocalDateTime.now())
-                .price(10000)
-                .quantity(100)
-                .type("Tee")
-                .url("path")
-                .build();
-        productRepository.save(product);
-    //when
-        Long productId = product.getId();
-        productRepository.delete(product);
-        Product getProduct =productRepository.findById(productId).get();
-    //then
-        fail("NoSuchElementException이 발생해야함.");
-
-
-    }
-
-    @Test
-    public void 페이징(){
-    //given
-        for(int i=1; i<=3; i++){
-            Product product = Product.createProduct()
-                    .title("SampleTitle"+i)
-                    .content("SampleContent"+i)
-                    .createDate(LocalDateTime.now())
-                    .price(10000)
-                    .quantity(100)
-                    .type("Tee"+i)
-                    .url("path"+i)
-                    .build();
-            productRepository.save(product);
-        }
-
-        PageVo vo = new PageVo();
-    //when
-        PageMaker pageMaker = productService.findAllByPage(vo);
-
-    //then
-
-        assertEquals(30,pageMaker.getResult().getTotalElements());
-
     }
 
 }

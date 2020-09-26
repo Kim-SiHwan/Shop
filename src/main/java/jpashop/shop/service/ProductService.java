@@ -48,11 +48,13 @@ public class ProductService {
         List<Product> chairList = productRepository.findTop10ByType("의자");
         List<Product> deskList = productRepository.findTop10ByType("책상");
         List<Product> sofaList = productRepository.findTop10ByType("소파");
+        List<Product> bedList = productRepository.findTop10ByType("침대");
 
         List<List<Product>> productResult = new ArrayList<>();
         productResult.add(chairList);
         productResult.add(deskList);
         productResult.add(sofaList);
+        productResult.add(bedList);
 
         List<List<ProductResponseDto>> result = new ArrayList<>();
 
