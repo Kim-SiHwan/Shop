@@ -34,5 +34,37 @@ VALUES ('체어 소파', '1인용 인체공학적 디자인의 소파', '11.jpg'
 INSERT INTO product(title,content,url,type,price,quantity,create_date)
 VALUES ('라운드 소파', '실용적인 소파', '12.jpg','소파',130000,8,now());
 
+INSERT INTO product(title,content,url,type,price,quantity,create_date)
+VALUES ('검은 책상', '블랙계열의 무광 책상', '13.jpg','책상',50000,8,now());
+
+INSERT INTO product(title,content,url,type,price,quantity,create_date)
+VALUES ('귀여운 의자', '이 의자는 귀엽습니다', '14.jpg','의자',40000,20,now());
+
+INSERT INTO product(title,content,url,type,price,quantity,create_date)
+VALUES ('푹신 의자', '다리를 뻗을 수 있는 앤틱한 의자', '15.jpg','의자',90000,8,now());
+
+INSERT INTO product(title,content,url,type,price,quantity,create_date)
+VALUES ('귀여운 의자2', '이 의자도 귀엽습니다', '16.jpg','의자',40000,20,now());
+
+INSERT INTO product(title,content,url,type,price,quantity,create_date)
+VALUES ('귀여운 의자3', '이 의자 또한 귀엽습니다', '17.jpg','의자',50000,3,now());
+
+INSERT INTO product(title,content,url,type,price,quantity,create_date)
+VALUES ('검은 책상2', '블랙계열의 무광 책상2', '18.jpg','책상',70000,8,now());
+
+INSERT INTO product(title,content,url,type,price,quantity,create_date)
+VALUES ('와이드 책상', '원목계열의 와이드한 책상', '19.jpg','책상',100000,1,now());
+
+INSERT INTO product(title,content,url,type,price,quantity,create_date)
+VALUES ('소파같은 의자', '아무튼 의자입니다', '20.jpg','의자',75000,3,now());
+
+
+
+
+
+
+
+
+
 
 
