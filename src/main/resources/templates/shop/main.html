@@ -1,0 +1,188 @@
+<html xmlns xmlns:th="http://www.w3.org/1999/xhtml" : th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.ney.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="panel-body">
+        <div class="slide">
+            <ul>
+                <li><img class="rounded" src="/img/썸네일1.jpg" width="1100" height="500"></li>
+                <li><img class="rounded" src="/img/썸네일2.jpg" width="1100" height="500"></li>
+                <li><img class="rounded" src="/img/썸네일3.jpg" width="1100" height="500"></li>
+                <li><img class="rounded" src="/img/썸네일4.jpg" width="1100" height="500"></li>
+                <li><img class="rounded" src="/img/썸네일5.jpg" width="1100" height="500"></li>
+                <li><img class="rounded" src="/img/썸네일6.jpg" width="1100" height="500"></li>
+            </ul>
+        </div>
+
+        <div id="mainDiv">
+        <div id="newArrivals">
+            <h4 id="newArrivalsHeader">New Arrivals</h4>
+            <div id="newArrivalsListDiv">
+
+                <ul style="display: inline-block" th:each="list:${itemList}">
+                    <li style="display: inline-block; margin-top: 100px; padding: 0 15px 0 15px">
+                        <div id="newImgDiv">
+                            <a id="newImgPid" th:href="${list.title}"><img style="width: 450px;height: 350px; "
+                                                                          th:src="@{'/img/' + ${list.url}}"></a>
+                        </div>
+                        <div class="productTitle">
+                            [[${list.title}]]
+                            <br>
+                            [[${list.price}]]
+                            <br>
+                            [[${list.reviewCount}]]
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div id="recommendChair">
+            <h4 id="recommendChairHeader">Chair Items</h4>
+            <div id="recommendChairListDiv">
+                <ul style="display: inline-block" th:each="list:${typeList[0]}">
+                    <li style="display: inline-block; margin-top: 100px; padding: 0 15px 0 15px">
+                        <div id="chairImgDiv">
+                            <a id="chairImgPid" th:href="${list.title}"><img style="width: 450px;height: 350px; "
+                                                                            th:src="@{'/img/' + ${list.url}}"></a>
+                        </div>
+                        <div class="productTitle">
+                            [[${list.title}]]
+                            <br>
+                            [[${list.price}]]
+                            <br>
+                            [[${list.reviewCount}]]
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="recommendDesk">
+            <h4 id="recommendDeskHeader">Desk Items</h4>
+            <div id="recommendDeskListDiv">
+                <ul style="display: inline-block" th:each="list:${typeList[1]}">
+                    <li style="display: inline-block; margin-top: 100px; padding: 0 15px 0 15px">
+                        <div id="deskImgDiv">
+                            <a id="deskImgPid" th:href="${list.title}"><img style="width: 450px;height: 350px; "
+                                                                            th:src="@{'/img/' + ${list.url}}"></a>
+                        </div>
+                        <div class="productTitle">
+                            [[${list.title}]]
+                            <br>
+                            [[${list.price}]]
+                            <br>
+                            [[${list.reviewCount}]]
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="recommendSofa">
+            <h4 id="recommendSofaHeader">Sofa Items</h4>
+            <div id="recommendSofaListDiv">
+                <ul style="display: inline-block" th:each="list:${typeList[2]}">
+                    <li style="display: inline-block; margin-top: 100px; padding: 0 15px 0 15px">
+                        <div id="sofaImgDiv">
+                            <a id="sofaImgPid" th:href="${list.title}"><img style="width: 450px;height: 350px; "
+                                                                            th:src="@{'/img/' + ${list.url}}"></a>
+                        </div>
+                        <div class="productTitle">
+                            [[${list.title}]]
+                            <br>
+                            [[${list.price}]]
+                            <br>
+                            [[${list.reviewCount}]]
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="recommendBed">
+            <h4 id="recommendBedHeader">Bed Items</h4>
+            <div id="recommendBedListDiv">
+                <ul style="display: inline-block" th:each="list:${typeList[3]}">
+                    <li style="display: inline-block; margin-top: 100px; padding: 0 15px 0 15px">
+                        <div id="bedImgDiv">
+                            <a id="bedImgPid" th:href="${list.title}"><img style="width: 450px;height: 350px; "
+                                                                            th:src="@{'/img/' + ${list.url}}"></a>
+                        </div>
+                        <div class="productTitle">
+                            [[${list.title}]]
+                            <br>
+                            [[${list.price}]]
+                            <br>
+                            [[${list.reviewCount}]]
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        </div>
+        <a id="goTopLink" class="btn btn-outline-warning btn-sm" role="button" href="#">Top</a>
+        <a id="goNewArrivalsLink" class="btn btn-outline-warning btn-sm" role="button" href="#newArrivals">New</a>
+        <a id="goChairLink" class="btn btn-outline-warning btn-sm" role="button" href="#recommendChair">Chair</a>
+        <a id="goDeskLink" class="btn btn-outline-warning btn-sm" role="button" href="#recommendDesk">Desk</a>
+        <a id="goBedLink" class="btn btn-outline-warning btn-sm" role="button" href="#recommendBed">Bed</a>
+        <a id="goSofaLink" class="btn btn-outline-warning btn-sm" role="button" href="#recommendSofa">Sofa</a>
+
+
+
+
+
+    </div>
+</div>
+
+
+</body>
+
+
+<th:block layout:fragment="script">
+    <script th:inline=javascript>
+        $(document).on("ready", function (e) {
+
+            var images;
+            var imgCount;
+            var imgPosition = 1;
+            images = $('.slide ul');
+            imgCount = images.children().length;
+            $(document).on("click", "#nextBtn", function (e) {
+                next();
+            });
+
+            setInterval(function () {
+                next();
+            }, 3500);
+
+            function next() {
+                if (imgCount > imgPosition) {
+                    images.animate({
+                        left: '-=1100px'
+                    });
+                    imgPosition++;
+                } else {
+                    images.animate({
+                        left: '+=5500px'
+                    });
+                    imgPosition = 1;
+                }
+                console.log(imgCount + " " + imgPosition);
+
+            }
+
+
+        });
+
+
+    </script>
+</th:block>
+</html>
