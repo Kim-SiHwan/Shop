@@ -4,6 +4,7 @@ import jpashop.shop.domain.Cart;
 import jpashop.shop.domain.Member;
 import jpashop.shop.domain.Product;
 import jpashop.shop.dto.requestDto.CartRequestDto;
+import jpashop.shop.dto.responseDto.CartResponseDto;
 import jpashop.shop.repository.CartRepository;
 import jpashop.shop.repository.MemberRepository;
 import jpashop.shop.repository.ProductRepository;
@@ -43,6 +44,13 @@ public class CartService {
         cart.removeProducts(productList);
 
         return cart.getId();
+    }
+
+    public CartResponseDto getCart(String userName){
+        Member member = memberRepository.findByUserName(userName);
+        Cart cart = cartRepository.findCartByMemberId(member.getId());
+        CartResponseDto cartResponseDto = new CartResponseDto(cart);
+        return cartResponseDto;
     }
 
 }
