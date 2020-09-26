@@ -1,0 +1,64 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.slide
+{
+    background-color: black;
+    width:1100px;
+    height:500px;
+    overflow :hidden;
+    margin: 0 auto;
+}
+.slide > ul
+{
+    width:10000px;
+    position:relative;
+    top:0;
+    left:0;
+    font-size:0px;
+}
+.slide > ul > li{
+    display:inline-block;
+    margin-left: 0px;
+}
+
+#mainDiv{
+    margin-left: 250px;
+}
+
+#mainDiv > img{
+    width: 500px;
+    height: 350px;
+}
+
+#newArrivalsHeader, #recommendChairHeader, #recommendBedHeader, #recommendDeskHeader, #recommendSofaHeader{
+    position: absolute;
+    margin-left: 650px;
+    margin-top: 30px;
+}
+
+#goTopLink ,#goNewArrivalsLink, #goChairLink, #goDeskLink, #goBedLink, #goSofaLink{
+    position: fixed;
+    width: 60px;
+    right: 10px;
+}
+
+#goTopLink{
+    bottom: 200px;
+}
+#goNewArrivalsLink{
+    bottom: 169px;
+}
+#goChairLink{
+    bottom: 138px;
+}
+#goDeskLink{
+    bottom: 107px;
+}
+#goBedLink{
+    bottom: 76px;
+}
+#goSofaLink{
+    bottom: 45px;
+}
