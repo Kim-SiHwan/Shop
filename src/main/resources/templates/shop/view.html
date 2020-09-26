@@ -1,10 +1,120 @@
-<!DOCTYPE html>
-<html lang="en">
+<html xmlns xmlns:th="http://www.w3.org/1999/xhtml" : th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.ney.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/defaultLayout}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 
+<div layout:fragment="content">
+    <div class="panel-body">
+
+        <div id="viewImgBox">
+        <img style="width: 750px;height: 550px; " th:src="@{'/img/' + ${view.url}}">
+        </div>
+
+        <div id="viewTextBox">
+            <hr>
+            <p id="viewItemTitle">[[${view.title}]]</p>
+            <hr>
+            <p id="viewItemPrice"><small>가격 : [[${view.price}]]</small></p>
+            <p id="viewItemStock"><small>남은 재고 : [[${view.quantity}]]</small></p>
+            <p id="viewItemId"><small>상품 번호 : [[${view.productId}]]</small></p>
+            <p><small>배송방법 : 택배발송</small></p>
+            <p><small>배송비 : 3000원</small></p>
+            <p id="viewItemContent"><small>상품 설명 : [[${view.content}]]</small></p>
+
+            <small>수량 : <input type="number" name="quantity" min="1" th:max="${view.quantity}" id="selectQuantity" value="1"></small>
+
+        </div>
+
+        <div id="viewBtnBox">
+            <button id="orderBtn" class="btn btn-primary btn-sm float-right">구매하기</button>
+            <button id="cartBtn" class="btn btn-outline-info btn-sm float-right">장바구니</button>
+        </div>
+
+        <div id="reviewDiv">
+            <i id="reviewIcon" class='far fa-comments' ></i><small>[[${view.reviewCount}]]개의 리뷰가 있습니다.</small>
+            <div id="reviewBodyDiv">
+                <table class="table table-hover">
+                    <thead>
+                    <th width="100">번호</th>
+                    <th width="1100">내용</th>
+                    <th>작성자</th>
+                    <th width="300">작성일</th>
+                    </thead>
+                    <tbody id="reviewBody">
+
+                    </tbody>
+                </table>
+
+                <textarea class="form-control" rows="5" id="addReviewContent"></textarea>
+                <button class="btn btn-primary btn-sm" id="addReviewBtn">작성</button>
+
+           </div>
+        </div>
+
+        <div id="questionDiv">
+            <small>[[${view.questionCount}]]개의 문의가 있습니다.</small>
+            <div id="questionBodyDiv">
+                <table class="table table-hover">
+                    <thead>
+                    <th width="100">번호</th>
+                    <th width="1100">제목</th>
+                    <th>작성자</th>
+                    <th width="300">작성일</th>
+                    </thead>
+                    <tbody id="questionBody">
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
+
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript" th:src="@{'/js/review.js'}"></script>
+    <script th:inline=javascript>
+        $(document).on("ready", function (e) {
+
+            reviewManager.getAll([[${view.productId}]],getReviews);
+            var obj;
+            function getReviews(data){
+                var str = "";
+                console.log(data);
+                for(var i=0; i< data.data.length; i++){
+                    var reviews = data.data[i];
+
+                    str +=
+                        "<tr>" +
+                        "<td>"+reviews.id+"</td>"+
+                        "<td>"+reviews.content+"</td>"+
+                        "<td>"+reviews.userName+"</td>"+
+                        "<td>"+reviews.createDate+"</td>"+
+                        "</tr>";
+
+                }
+                console.log("str:"+str);
+                $('#reviewBody').html(str);
+            }
+
+            $(document).on('click','#addReviewBtn',function (e){
+                var reviewContent = $('#addReviewContent').val();
+                obj = {productId : [[${view.productId}]], content : reviewContent, userName : "오이"};
+
+                console.log(obj);
+                reviewManager.add(obj,getReviews);
+            });
+
+        });
+
+    </script>
+</th:block>
 </html>

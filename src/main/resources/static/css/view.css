@@ -1,0 +1,28 @@
+#viewImgBox{
+    display: inline-block;
+    margin-left: 50px;
+    width: 750px;
+}
+
+#viewTextBox{
+    position: absolute;
+    width: 400px;
+    margin-top: -550px;
+    margin-left: 1100px;
+
+}
+
+#viewBtnBox{
+    position: absolute;
+    width: 400px;
+    z-index: 1;
+    margin-top: -100px;
+    margin-left: 900px;
+
+}
+
+#reviewDiv , #questionDiv{
+    margin-left: 50px;
+    margin-top: 50px;
+    width: 95%;
+}
