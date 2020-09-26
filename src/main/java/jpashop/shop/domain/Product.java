@@ -29,6 +29,9 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Review> reviews = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product")
+    private List<Question> questions = new ArrayList<>();
+
     public void changeProductText(String title, String content) {
         this.title = title;
         this.content = content;
