@@ -45,6 +45,14 @@ public class Cart {
         this.member = member;
     }
 
+    public void addTotalQuantity(int quantity){
+        this.totalQuantity+=quantity;
+    }
+
+    public void removeTotalQuantity(int quantity){
+        this.totalQuantity-=quantity;
+    }
+
     @Builder(builderClassName = "createCart", builderMethodName = "createCart")
     public Cart(Long id, int totalPrice, int totalQuantity) {
         this.id = id;

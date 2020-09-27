@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 @Getter
 public class CartResponseDto {
     private List<ProductResponseDto> products;
-    private int count;
+    private int totalCount;
     private int totalPrice;
 
     public CartResponseDto (Cart cart){
         List<Product> productList= cart.getProducts();
         products= productList.stream().map(m->new ProductResponseDto(m)).collect(Collectors.toList());
-        count = cart.getTotalQuantity();
+        totalCount = cart.getTotalQuantity();
         totalPrice = cart.getTotalPrice();
 
     }

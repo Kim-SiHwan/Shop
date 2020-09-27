@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -19,13 +20,16 @@ import java.util.List;
 public class CartController {
     private final CartService cartService;
 
-    @PostMapping("/add_cart")
-    public void addCart(CartRequestDto cartRequestDto){
+    @PostMapping("/cart")
+    public String addCart(CartRequestDto cartRequestDto, RedirectAttributes rt){
         cartService.addCart(cartRequestDto);
+        rt.addAttribute("productId",cartRequestDto.getProductIds().get(cartRequestDto.getProductIds().size()-1));
+        return "redirect:/shop/view";
     }
 
     @GetMapping("/cart")
     public String viewCart(String userName, Model model){
+        userName="오이";
         CartResponseDto cart = cartService.getCart(userName);
         model.addAttribute("cart",cart);
         return "/shop/cart";

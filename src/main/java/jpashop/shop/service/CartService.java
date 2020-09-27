@@ -30,18 +30,20 @@ public class CartService {
         Cart cart = cartRepository.findCartByMemberId(member.getId());
         Product product = productRepository.findById(cartRequestDto.getProductIds().get(0)).get();
         cart.addProducts(product);
+        cart.addTotalQuantity(cartRequestDto.getCount());
 
         return cart.getId();
     }
 
     @Transactional
-    public Long removeCart(CartRequestDto cartRequestDto){
-        Member member = memberRepository.findByUserName(cartRequestDto.getUserName());
+    public Long removeCart(List<Long> productIds, String userName , Integer count){
+        Member member = memberRepository.findByUserName(userName);
         Cart cart = cartRepository.findCartByMemberId(member.getId());
-        List<Product> productList = cartRequestDto.getProductIds().stream()
+        List<Product> productList = productIds.stream()
                 .map( pid -> productRepository.findById(pid).get())
                 .collect(Collectors.toList());
         cart.removeProducts(productList);
+        cart.removeTotalQuantity(count);
 
         return cart.getId();
     }
