@@ -2,6 +2,7 @@ package jpashop.shop.domain;
 
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,6 +27,7 @@ public class Product {
     private int quantity;
     private LocalDateTime createDate;
 
+
     @OneToMany(mappedBy = "product")
     private List<Review> reviews = new ArrayList<>();
 
@@ -37,15 +39,12 @@ public class Product {
         this.content = content;
     }
 
-    public void changePrice(int price) {
-        this.price = price;
-    }
-
     public void addStockQuantity(int quantity) {
         this.quantity += quantity;
     }
 
     public void removeStockQuantity(int quantity) {
+        //재고처리 해야함.
         int tempStock = this.quantity -= quantity;
         if (tempStock >= 0) {
             this.quantity = tempStock;
