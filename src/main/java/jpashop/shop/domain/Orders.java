@@ -36,7 +36,7 @@ public class Orders {
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
-    @OneToMany(mappedBy = "orders")
+    @OneToMany(mappedBy = "orders",cascade = CascadeType.ALL)
     private List<OrderLine> orderLines = new ArrayList<>();
 
     public void addOrdersLine(OrderLine orderLine) {
@@ -52,6 +52,7 @@ public class Orders {
         this.member = member;
         this.member.getOrders().add(this);
     }
+
 
     public void cancel(){
         if(this.delivery.getDeliveryStatus() == DeliveryStatus.COMP){

@@ -4,6 +4,7 @@ import jpashop.shop.domain.*;
 import jpashop.shop.domain.status.DeliveryStatus;
 import jpashop.shop.dto.requestDto.OrdersRequestDto;
 import jpashop.shop.dto.requestDto.ProductRequestDto;
+import jpashop.shop.dto.responseDto.OrdersResponseDto;
 import jpashop.shop.repository.MemberRepository;
 import jpashop.shop.repository.OrdersRepository;
 import jpashop.shop.repository.ProductRepository;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jdo.annotations.Order;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ public class OrdersService {
     private final OrdersRepository ordersRepository;
     private final ProductRepository productRepository;
     private final MemberRepository memberRepository;
+    private final CartService cartService;
 
     @Transactional
     public Long addOrders(OrdersRequestDto requestDto){
@@ -34,7 +37,8 @@ public class OrdersService {
         List<Product> productList = requestDto.getProductIds().stream()
                 .map( pid -> productRepository.findById(pid).get())
                 .collect(Collectors.toList());
-
+        Orders orders = requestDto.toEntity(requestDto);
+        orders.addMember(member);
         List<OrderLine> orderLineList = new ArrayList<>();
         for(int i=0; i< productList.size(); i++){
             OrderLine orderLine = OrderLine.createOrderLine()
@@ -42,21 +46,19 @@ public class OrdersService {
                     .orderQuantity(requestDto.getCount().get(i))
                     .product(productList.get(i))
                     .build();
-            orderLineList.add(orderLine);
+            orders.addOrdersLine(orderLine);
         }
 
-        Delivery delivery = Delivery.createDelivery()
+        /*Delivery delivery = Delivery.createDelivery()
                 .deliveryStatus(DeliveryStatus.READY)
                 .createDate(LocalDateTime.now())
                 .address(member.getAddress())
                 .build();
+*/
 
-        Orders orders = requestDto.toEntity(requestDto);
-        orders.addMember(member);
-        orderLineList.stream().forEach( orderLine ->orders.addOrdersLine(orderLine));
-        orders.addDelivery(delivery);
+       // orders.addDelivery(delivery);
         ordersRepository.save(orders);
-
+        cartService.removeCart(requestDto.getProductIds(), requestDto.getUserName(), 0);
         return orders.getId();
     }
 
@@ -64,6 +66,22 @@ public class OrdersService {
     public void cancelOrders(Long ordersId){
         Orders orders = ordersRepository.findById(ordersId).get();
         orders.cancel();
+    }
+
+    public List<OrdersResponseDto> getOrders(String userName){
+        Member member = memberRepository.findByUserName(userName);
+        List<Orders> ordersList = ordersRepository.findAllByMember_Id(member.getId());
+        List<OrdersResponseDto> list = ordersList.stream()
+                .map(m-> new OrdersResponseDto(m))
+                .collect(Collectors.toList());
+
+        return list;
+    }
+
+    public OrdersResponseDto getOrdersView(Long ordersId){
+        Orders orders = ordersRepository.findById(ordersId).get();
+        OrdersResponseDto ordersResponseDto = new OrdersResponseDto(orders);
+        return ordersResponseDto;
     }
 
 }
