@@ -1,0 +1,78 @@
+<html xmlns xmlns:th="http://www.w3.org/1999/xhtml" : th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.ney.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="panel-body">
+
+        <table class="table table-hover">
+            <tr>
+                <td>상품번호</td>
+                <td>상품이름</td>
+                <td>상품가격</td>
+                <td>주문수량</td>
+            </tr>
+            <tr th:each="list : ${cart.products}">
+                <td id="bb">[[${list.productId}]]</td>
+                <td>
+                    <a th:href="@{/shop/view?productId={id} (id=${list.productId})}">
+                    <img style="width: 450px;height: 350px; " th:src="@{'/img/' + ${list.url}}"></a>
+                </td>
+
+                <td>[[${list.title}]]</td>
+                <td>[[${list.price}]]</td>
+                <td>[[${cart.totalCount}]]</td>
+
+            </tr>
+        </table>
+
+        <button id="orderBtn">주문</button>
+
+        <form id="form" th:action="@{/shop/order}" method="get">
+
+        </form>
+
+    </div>
+</div>
+
+
+</body>
+
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript" th:src="@{'/js/review.js'}"></script>
+    <script th:inline=javascript>
+        $(document).on("ready", function (e) {
+
+            var productIds = new Array();
+            var counts = new Array();
+            var prices = new Array();
+            $(document).on('click', '#bb', function (e) {
+                var selectId = $(this).text();
+                var selectPrice = $(this).next().next().next().text();
+                productIds.push(selectId);
+                counts.push(1);
+                prices.push(selectPrice);
+                alert(productIds + " " + counts + " " + prices);
+
+            });
+
+            $(document).on('click', '#orderBtn', function (e) {
+                var form = $('#form');
+                form.append("<input type='hidden' name='productIds' value='" + productIds + "'>");
+                form.append("<input type='hidden' name='count' value='" + counts + "'>");
+                form.append("<input type='hidden' name='price' value='" + prices + "'>");
+                form.append("<input type='hidden' name='userName' value='오이'>");
+
+                form.submit();
+            });
+        });
+
+    </script>
+</th:block>
+</html>

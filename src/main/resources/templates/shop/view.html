@@ -11,7 +11,7 @@
     <div class="panel-body">
 
         <div id="viewImgBox">
-        <img style="width: 750px;height: 550px; " th:src="@{'/img/' + ${view.url}}">
+            <img style="width: 750px;height: 550px; " th:src="@{'/img/' + ${view.url}}">
         </div>
 
         <div id="viewTextBox">
@@ -25,7 +25,8 @@
             <p><small>배송비 : 3000원</small></p>
             <p id="viewItemContent"><small>상품 설명 : [[${view.content}]]</small></p>
 
-            <small>수량 : <input type="number" name="quantity" min="1" th:max="${view.quantity}" id="selectQuantity" value="1"></small>
+            <small>수량 : <input type="number" name="quantity" min="1" th:max="${view.quantity}" id="selectQuantity"
+                               value="1"></small>
 
         </div>
 
@@ -34,8 +35,12 @@
             <button id="cartBtn" class="btn btn-outline-info btn-sm float-right">장바구니</button>
         </div>
 
+        <form id="form" th:action="@{/}" method="post">
+
+        </form>
+
         <div id="reviewDiv">
-            <i id="reviewIcon" class='far fa-comments' ></i><small>[[${view.reviewCount}]]개의 리뷰가 있습니다.</small>
+            <i id="reviewIcon" class='far fa-comments'></i><small>[[${view.reviewCount}]]개의 리뷰가 있습니다.</small>
             <div id="reviewBodyDiv">
                 <table class="table table-hover">
                     <thead>
@@ -52,7 +57,7 @@
                 <textarea class="form-control" rows="5" id="addReviewContent"></textarea>
                 <button class="btn btn-primary btn-sm" id="addReviewBtn">작성</button>
 
-           </div>
+            </div>
         </div>
 
         <div id="questionDiv">
@@ -84,33 +89,65 @@
     <script th:inline=javascript>
         $(document).on("ready", function (e) {
 
-            reviewManager.getAll([[${view.productId}]],getReviews);
+            reviewManager.getAll([[${view.productId}]], getReviews);
             var obj;
-            function getReviews(data){
+            var productIds = new Array();
+            var form = $('#form');
+            var productId = [[${view.productId}]];
+
+            function getReviews(data) {
                 var str = "";
                 console.log(data);
-                for(var i=0; i< data.data.length; i++){
+                for (var i = 0; i < data.data.length; i++) {
                     var reviews = data.data[i];
 
                     str +=
                         "<tr>" +
-                        "<td>"+reviews.id+"</td>"+
-                        "<td>"+reviews.content+"</td>"+
-                        "<td>"+reviews.userName+"</td>"+
-                        "<td>"+reviews.createDate+"</td>"+
+                        "<td>" + reviews.id + "</td>" +
+                        "<td>" + reviews.content + "</td>" +
+                        "<td>" + reviews.userName + "</td>" +
+                        "<td>" + reviews.createDate + "</td>" +
                         "</tr>";
 
                 }
-                console.log("str:"+str);
+                console.log("str:" + str);
                 $('#reviewBody').html(str);
             }
 
-            $(document).on('click','#addReviewBtn',function (e){
+            $(document).on('click', '#addReviewBtn', function (e) {
                 var reviewContent = $('#addReviewContent').val();
-                obj = {productId : [[${view.productId}]], content : reviewContent, userName : "오이"};
+                obj = {productId: [[${view.productId}]], content: reviewContent, userName: "오이"};
 
                 console.log(obj);
-                reviewManager.add(obj,getReviews);
+                reviewManager.add(obj, getReviews);
+            });
+
+            $(document).on('click', '#cartBtn', function (e) {
+
+                var selectCount = $('#selectQuantity').val();
+                productIds.push(productId);
+                form.append("<input type='hidden' name='productIds' value='" + productIds + "'>");
+                form.append("<input type='hidden' name='count' value='" + selectCount + "'>");
+                form.append("<input type='hidden' name='userName' value='오이'>");
+                form.attr('action', 'cart');
+                form.submit();
+            });
+
+            $(document).on('click', '#orderBtn', function (e) {
+                productIds.push(productId);
+                var counts = new Array();
+                var prices = new Array();
+                var selectCount = $('#selectQuantity').val();
+
+                counts.push(selectCount);
+                prices.push(selectCount * [[${view.price}]]);
+                form.append("<input type='hidden' name='productIds' value='" + productIds + "'>");
+                form.append("<input type='hidden' name='count' value='" + counts + "'>");
+                form.append("<input type='hidden' name='price' value='" + prices + "'>");
+                form.append("<input type='hidden' name='userName' value='오이'>");
+                form.attr('method','get');
+                form.attr('action','order');
+                form.submit();
             });
 
         });

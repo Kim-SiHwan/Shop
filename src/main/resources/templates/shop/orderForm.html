@@ -1,0 +1,60 @@
+<html xmlns xmlns:th="http://www.w3.org/1999/xhtml" : th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.ney.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="panel-body">
+
+        <table class="table table-hover">
+            <tr>
+                <td>상품번호</td>
+                <td>상품</td>
+                <td>상품가격</td>
+                <td>주문수량</td>
+            </tr>
+            <tr th:each="list , i : ${orderForm.productIds}">
+                <td>[[${list}]]</td>
+                <td><img style="width: 450px;height: 350px; " th:src="@{'/img/' + ${list}+'.jpg'}"></td>
+                <td>[[${orderForm.price[i.index]}]]</td>
+                <td>[[${orderForm.count[i.index]}]]</td>
+            </tr>
+        </table>
+
+        <form id="form" th:action="@{/shop/order}" method="post">
+            <input th:each="productIds : ${orderForm.productIds}" type="hidden" name="productIds" th:value="${productIds}">
+            <input th:each="count : ${orderForm.count}" type="hidden" name="count" th:value="${count}">
+            <input th:each="price : ${orderForm.price}" type="hidden" name="price" th:value="${price}">
+            <input type="hidden" name="userName" value="오이">
+            <button id="submitBtn" type="submit" class="btn btn-primary">구매</button>
+        </form>
+
+    </div>
+</div>
+
+
+</body>
+
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript" th:src="@{'/js/review.js'}"></script>
+    <script th:inline=javascript>
+        $(document).on("ready", function (e) {
+
+            $(document).on('click', '#submitBtn', function (e) {
+                var counts = new Array();
+                var prices = new Array();
+                var productIds = new Array();
+
+
+            });
+
+        });
+
+    </script>
+</th:block>
+</html>

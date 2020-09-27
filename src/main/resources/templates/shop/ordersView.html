@@ -1,0 +1,53 @@
+<html xmlns xmlns:th="http://www.w3.org/1999/xhtml" : th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.ney.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="panel-body">
+
+        [[${orders}]]
+        [[${orders.orderLines}]]
+        [[${orders.orderState}]]
+        <table class="table table-hover">
+            <tr>
+                <td>주문상품</td>
+                <td>상품이름</td>
+                <td>주문수량</td>
+                <td>주문가격</td>
+            </tr>
+
+            <tr th:each="list : ${orders.orderLines}">
+                <td>
+                    <a th:href="@{/shop/view?productId={id} (id=${list.product.id})}">
+                        <img style="width: 450px;height: 350px; " th:src="@{'/img/' + ${list.product.url}}"></a>
+                </td>
+
+                <td>[[${list.product.title}]]</td>
+
+            </tr>
+        </table>
+
+
+    </div>
+</div>
+
+
+</body>
+
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript" th:src="@{'/js/review.js'}"></script>
+    <script th:inline=javascript>
+        $(document).on("ready", function (e) {
+
+
+        });
+
+    </script>
+</th:block>
+</html>
