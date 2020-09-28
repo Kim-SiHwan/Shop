@@ -25,15 +25,13 @@ public class ProductService {
     private final ProductRepository productRepository;
 
 
-    public List<ProductResponseDto> findAll(){
-
-        List<Product> productList = productRepository.findAll();
-        List<ProductResponseDto> list =
-                productList.stream().map( l -> new ProductResponseDto(l))
-                        .collect(Collectors.toList());
-
-        return list;
+    public PageMaker findAll(PageVo vo){
+        Pageable pageable = vo.makePageable(0,"id");
+        Page<Product> pageResult = productRepository.findAll(productRepository.makePredicate(vo.getType(),vo.getKeyword()),pageable);
+        PageMaker pageMaker = new PageMaker(pageResult);
+        return pageMaker;
     }
+
 
     public List<ProductResponseDto> findTop20(){
         List<Product> productList = productRepository.findTop20ByOrderByIdDesc();
@@ -43,7 +41,7 @@ public class ProductService {
         return list;
     }
 
-    public List<List<ProductResponseDto>> findAllByType(){
+    public List<List<ProductResponseDto>> findAllByAllType(){
 
         List<Product> chairList = productRepository.findTop10ByType("의자");
         List<Product> deskList = productRepository.findTop10ByType("책상");

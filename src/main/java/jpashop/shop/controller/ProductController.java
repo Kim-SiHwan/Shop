@@ -1,5 +1,7 @@
 package jpashop.shop.controller;
 
+import jpashop.shop.dto.pagination.PageMaker;
+import jpashop.shop.dto.pagination.PageVo;
 import jpashop.shop.dto.responseDto.ProductResponseDto;
 import jpashop.shop.dto.responseDto.QuestionResponseDto;
 import jpashop.shop.service.ProductService;
@@ -22,13 +24,12 @@ public class ProductController {
 
     @GetMapping("/main")
     public String home(Model model){
-        List<List<ProductResponseDto>> typeList = productService.findAllByType();
+        List<List<ProductResponseDto>> typeList = productService.findAllByAllType();
         model.addAttribute("typeList",typeList);
         List<ProductResponseDto> itemList = productService.findTop20();
         model.addAttribute("itemList",itemList);
         return "/shop/main";
     }
-
 
     @GetMapping("/view")
     public String view(Long productId, Model model){
@@ -38,6 +39,16 @@ public class ProductController {
         model.addAttribute("qList", qList);
         return "/shop/view";
     }
+
+    @GetMapping("/type")
+    public String viewByType(PageVo vo,Model model){
+        PageMaker list = productService.findAll(vo);
+        model.addAttribute("list",list);
+        model.addAttribute("vo",vo);
+        return "/shop/type";
+    }
+
+
 
 
 }

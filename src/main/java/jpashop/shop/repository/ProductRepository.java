@@ -17,10 +17,11 @@ public interface ProductRepository extends JpaRepository<Product,Long>, Querydsl
 
     List<Product> findTop20ByOrderByIdDesc();
 
-    public default Predicate makePredicate(String keyword){
+    public default Predicate makePredicate(String type,String keyword){
         BooleanBuilder b= new BooleanBuilder();
         QProduct product = QProduct.product;
         b.and(product.id.gt(0));
+        b.and(product.type.like("%"+type+"%"));
 
         if(keyword==null){
             return b;

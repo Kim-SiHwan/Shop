@@ -56,7 +56,7 @@ public class ProductServiceTest {
        createProduct();
     //when
         List<Product> list = productRepository.findAll();
-        List<List<ProductResponseDto>> typeList = productService.findAllByType();
+        List<List<ProductResponseDto>> typeList = productService.findAllByAllType();
         List<Product> descList =productRepository.findTop20ByOrderByIdDesc();
 
     //then
@@ -94,7 +94,7 @@ public class ProductServiceTest {
     //given
         createProduct();
     //when
-        List<Product> findProducts = (List<Product>) productRepository.findAll(productRepository.makePredicate("소파"));
+        List<Product> findProducts = (List<Product>) productRepository.findAll(productRepository.makePredicate("소파","브라운"));
     //then
         findProducts.stream().forEach(l -> System.out.println(l.getTitle()));
 
