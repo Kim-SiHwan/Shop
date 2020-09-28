@@ -1,0 +1,44 @@
+<html xmlns xmlns:th="http://www.w3.org/1999/xhtml" : th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.ney.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="panel-body">
+
+        <form id="form" th:action="@{/shop/question}" method="post" th:object="${qForm}">
+
+            <label th:for="name">상품명</label>
+            <input class="form-control" type="text">
+
+            <label th:for="city">거주지</label>
+            <input class="form-control" type="text" th:field="*{city}" placeholder="거주지 입력">
+
+            <button id="submitBtn" type="submit" class="btn btn-outline-primary">btn</button>
+        </form>
+
+    </div>
+</div>
+
+
+</body>
+
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript" th:src="@{'/js/review.js'}"></script>
+    <script th:inline=javascript>
+        $(document).on("ready", function (e) {
+
+            $(document).on('click','#ordersViewBtn',function (e){
+
+            });
+
+        });
+
+    </script>
+</th:block>
+</html>
