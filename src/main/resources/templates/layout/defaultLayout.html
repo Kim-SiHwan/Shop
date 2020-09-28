@@ -31,13 +31,12 @@
 
 <body>
 <div layout:fragment="header" id="header">
-
     <div id="topHeader">
         <a th:href="@{/members/join}" id="loginLink">로그인</a>
         <a th:href="@{/members/join}" id="joinLink">회원가입</a>
-        <a th:href="@{/members/join}" id="cartLink">장바구니</a>
-        <a th:href="@{/members/join}" id="myLink">마이페이지</a>
-        <a th:href="@{/members/join}" id="Q&ALink">Q&A</a>
+        <a th:href="@{/shop/cart}" id="cartLink">장바구니</a>
+        <a th:href="@{/shop/orders}" id="myLink">마이페이지</a>
+        <a th:href="@{/shop/question}" id="Q&ALink">Q&A</a>
         <a th:href="@{/members/join}" id="reviewLink">상품후기</a>
 
         <hr>

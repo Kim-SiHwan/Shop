@@ -64,19 +64,64 @@
             <small>[[${view.questionCount}]]개의 문의가 있습니다.</small>
             <div id="questionBodyDiv">
                 <table class="table table-hover">
-                    <thead>
-                    <th width="100">번호</th>
-                    <th width="1100">제목</th>
-                    <th>작성자</th>
-                    <th width="300">작성일</th>
-                    </thead>
-                    <tbody id="questionBody">
+                    <tr>
+                        <td>번호</td>
+                        <td>제목</td>
+                        <td>작성자</td>
+                        <td>작성일</td>
+                        <td width="100">답변여부</td>
+                    </tr>
+                    <tr th:each="list : ${qList}">
+                        <td>[[${list.questionId}]]</td>
+                        <td id="qTitle" data-target="#myModal" data-toggle="modal">[[${list.title}]]</td>
+                        <input type="hidden" th:value="${list.question}">
+                        <input type="hidden" th:value="${list.answer}">
 
-                    </tbody>
+                        <td>[[${list.userName}]]</td>
+                        <td>[[${#temporals.format(list.createDate,('yyyy-MM-dd HH:mm'))}]]</td>
+                        <td>[[${list.check}]]</td>
+                    </tr>
+
                 </table>
 
             </div>
+            <button id="makeQuestion" class="btn btn-primary btn-sm" data-target="#myModal" data-toggle="modal">
+                작성하기</button>
         </div>
+
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <p class="modal-title" id="modalHeader">상품문의</p>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body" id="productImg">
+                        [[${view.title}]]
+                        <br>
+
+                        <img style="width: 300px;height: 250px; " th:src="@{'/img/' + ${view.url}}">
+                    </div>
+                    <div class="modal-body" id="questionTitle">
+                        Modal Body
+                    </div>
+                    <div class="modal-body" id="questionContent">
+                        Modal body..
+                    </div>
+                    <div class="modal-body" id="answerContent">
+                        Modal body
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-success" id="submitBtn"
+                                data-dismiss="modal">작성</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -150,6 +195,43 @@
                 form.submit();
             });
 
+            $(document).on('click','#makeQuestion',function (e){
+                $('#productImg').show();
+                $('#questionTitle').html("<input type='text' class='form-control' width='300' placeholder='제목입력'>")
+                $('#questionContent').html("<textarea class='form-control' rows='10' placeholder='내용입력'></textarea>")
+                $('#answerContent').hide();
+                $('#submitBtn').show();
+            });
+
+            $(document).on('click','#submitBtn',function (e){
+                var title = $('#questionTitle').children().val();
+                var content = $('#questionContent').children().val();
+                var pid = [[${view.productId}]];
+                form.append("<input type='hidden' name='productId' value='" + pid + "'>");
+                form.append("<input type='hidden' name='title' value='" + title + "'>");
+                form.append("<input type='hidden' name='question' value='" + content + "'>");
+                form.append("<input type='hidden' name='answer' value=''>");
+                form.append("<input type='hidden' name='userName' value='오이'>");
+                form.attr('action','question');
+                form.submit();
+            });
+
+            $(document).on('click','#qTitle',function (e){
+                var qTitle = $(this).text();
+                var qContent =$(this).next().val();
+                var qAnswer =$(this).next().next().val();
+                var qUser = $(this).next().next().next().text();
+                if(qAnswer.length<=1)
+                    qAnswer = "아직 답변이 존재하지 않습니다.";
+                $('#productImg').hide();
+                $('#submitBtn').hide();
+                $('#questionTitle').html("<p>작성자 : "+qUser+"</p>" +
+                    "<input type='text' class='form-control' width='300' value='"+qTitle+"' readonly='readonly'>");
+                $('#questionContent').html("<p>질문내용 : </p><textarea class='form-control' rows='10' readonly='readonly'>"+qContent+"</textarea>")
+                $('#answerContent').html("<p>답변내용 : </p><textarea class='form-control' rows='10' readonly='readonly'>"+qAnswer+"</textarea>")
+                $('#answerContent').show();
+
+            });
         });
 
     </script>
