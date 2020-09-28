@@ -49,7 +49,7 @@ public class QuestionServiceTest {
         Long qid= questionService.addQuestion(questionRequestDto);
         Question getQuestion = questionRepository.findById(qid).get();
     //then
-        assertEquals("상품문의 드립니다.",getQuestion.getQuestion());
+        assertEquals("상품문의 드립니다.",getQuestion.getContent());
 
     }
 

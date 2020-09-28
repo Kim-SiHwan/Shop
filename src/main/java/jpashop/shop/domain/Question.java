@@ -19,8 +19,10 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_id")
     private Long id;
-    private String question;
+    private String content;
     private String answer;
+    private String title;
+    private String whether;
     private LocalDateTime createDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,15 +42,19 @@ public class Question {
         this.product.getQuestions().add(this);
     }
 
+
     public void addAnswer(String answer){
         this.answer = answer;
+        this.whether = "Y";
     }
 
     @Builder(builderClassName = "createQuestion", builderMethodName = "createQuestion")
-    public Question(Long id, String question, String answer, LocalDateTime createDate) {
+    public Question(Long id, String question, String answer, String title,LocalDateTime createDate) {
         this.id = id;
-        this.question = question;
+        this.content = question;
+        this.title = title;
         this.answer = answer;
         this.createDate = createDate;
+        this.whether="N";
     }
 }
