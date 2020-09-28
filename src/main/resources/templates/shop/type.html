@@ -9,33 +9,28 @@
 
 <div layout:fragment="content">
     <div class="panel-body">
+        <div id="typeListDiv">
+            <ul style="display: inline-block" th:each="list:${list.result.content}">
+                <li style="display: inline-block; margin-top: 100px; padding: 0 15px 0 15px">
+                    <div id="typeImgDiv">
+                        <a id="typeImgPid" th:href="@{/shop/view?productId={id} (id=${list.id})}"><img style="width: 450px;height: 350px; "
+                                                                                                             th:src="@{'/img/' + ${list.url}}"></a>
+                    </div>
+                    <div class="productTitle">
+                        [[${list.title}]]
+                        <br>
+                        [[${list.price}]]
+                        <br>
+                        [[${#lists.size(list.reviews)}]]
+                    </div>
+                </li>
+            </ul>
+        </div>
 
-        <table class="table table-hover">
-            <tr>
-                <td width="100">문의번호</td>
-                <td width="350">문의상품</td>
-                <td>문의제목</td>
-                <td width="100">문의고객</td>
-                <td width="200">문의일자</td>
-                <td width="100">답변여부</td>
-            </tr>
 
-            <tr th:each="list : ${list.result.content}">
-                <td>[[${list.id}]]</td>
-                <td><img style="width: 250px;height: 200px; " th:src="@{'/img/' + ${list.product.id}+'.jpg'}"></td>
-                <td>[[${list.title}]]</td>
-                <td>[[${list.member.userName}]]</td>
-                <td>[[${#temporals.format(list.createDate,('yyyy-MM-dd HH:mm'))}]]</td>
-                <td>[[${list.whether}]]</td>
-            </tr>
-        </table>
-
-        <form th:action="@{question}" method="get" style="margin-left: 500px">
+        <form th:action="@{type}" method="get" style="margin-left: 700px">
             <select name="type" class="form-control" style="width: 100px; text-align: center; display:inline;">
-                <option>----</option>
-                <option value="t">Title</option>
-                <option value="w">Writer</option>
-                <option value="c">Content</option>
+                <option th:value="${vo.type}">Title</option>
             </select>
 
             <input name="keyword" class="form-control" style="width: 440px;display:inline;">
