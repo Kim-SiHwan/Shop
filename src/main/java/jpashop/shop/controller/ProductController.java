@@ -1,7 +1,9 @@
 package jpashop.shop.controller;
 
 import jpashop.shop.dto.responseDto.ProductResponseDto;
+import jpashop.shop.dto.responseDto.QuestionResponseDto;
 import jpashop.shop.service.ProductService;
+import jpashop.shop.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final QuestionService questionService;
 
     @GetMapping("/main")
     public String home(Model model){
@@ -30,7 +33,9 @@ public class ProductController {
     @GetMapping("/view")
     public String view(Long productId, Model model){
         ProductResponseDto responseDto = productService.viewProduct(productId);
+        List<QuestionResponseDto> qList = questionService.findAllByProductId(productId);
         model.addAttribute("view",responseDto);
+        model.addAttribute("qList", qList);
         return "/shop/view";
     }
 
