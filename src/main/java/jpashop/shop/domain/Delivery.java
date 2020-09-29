@@ -33,6 +33,10 @@ public class Delivery {
     @JoinColumn(name = "orders_id")
     private Orders orders;
 
+    public void addOrders(Orders orders){
+        this.orders = orders;
+    }
+
     @Builder(builderClassName = "createDelivery", builderMethodName = "createDelivery")
     public Delivery(Long id, LocalDateTime createDate, Address address, DeliveryStatus deliveryStatus) {
         this.id = id;
