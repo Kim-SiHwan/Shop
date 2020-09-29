@@ -16,7 +16,7 @@ public class CartResponseDto {
     public CartResponseDto (Cart cart){
         List<Product> productList= cart.getProducts();
         products= productList.stream().map(m->new ProductResponseDto(m)).collect(Collectors.toList());
-        totalCount = cart.getTotalQuantity();
+        totalCount = 1;
         totalPrice = cart.getTotalPrice();
 
     }

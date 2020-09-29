@@ -76,7 +76,7 @@ public class CartServiceTest {
         Long addCartId = cartService.addCart(cartRequestDto);
         cartService.addCart(cartRequestDto2);
         Cart getCart = cartRepository.findById(addCartId).get();
-        Long removeCartId = cartService.removeCart(cartRequestDto.getProductIds(), cartRequestDto.getUserName(), cartRequestDto.getCount());
+        Long removeCartId = cartService.removeCart(cartRequestDto.getProductIds(), cartRequestDto.getUserName());
         getCart = cartRepository.findById(removeCartId).get();
     //then
         assertEquals(1,getCart.getProducts().size());

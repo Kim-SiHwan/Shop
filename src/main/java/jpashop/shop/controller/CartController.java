@@ -7,6 +7,7 @@ import jpashop.shop.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ import java.util.List;
 public class CartController {
     private final CartService cartService;
 
-    @PostMapping("/cart")
+    @PostMapping("/add_cart")
     public String addCart(CartRequestDto cartRequestDto, RedirectAttributes rt){
         cartService.addCart(cartRequestDto);
         rt.addAttribute("productId",cartRequestDto.getProductIds().get(cartRequestDto.getProductIds().size()-1));
@@ -33,5 +34,11 @@ public class CartController {
         CartResponseDto cart = cartService.getCart(userName);
         model.addAttribute("cart",cart);
         return "/shop/cart";
+    }
+
+    @DeleteMapping("/remove_cart")
+    public String removeCart(CartRequestDto cartRequestDto){
+        cartService.removeCart(cartRequestDto.getProductIds(),"오이");
+        return "redirect:/shop/cart";
     }
 }

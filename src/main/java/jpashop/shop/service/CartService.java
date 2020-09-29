@@ -36,14 +36,13 @@ public class CartService {
     }
 
     @Transactional
-    public Long removeCart(List<Long> productIds, String userName , Integer count){
+    public Long removeCart(List<Long> productIds, String userName){
         Member member = memberRepository.findByUserName(userName);
         Cart cart = cartRepository.findCartByMemberId(member.getId());
         List<Product> productList = productIds.stream()
                 .map( pid -> productRepository.findById(pid).get())
                 .collect(Collectors.toList());
         cart.removeProducts(productList);
-        cart.removeTotalQuantity(count);
 
         return cart.getId();
     }
