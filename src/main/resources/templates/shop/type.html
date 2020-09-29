@@ -10,11 +10,13 @@
 <div layout:fragment="content">
     <div class="panel-body">
         <div id="typeListDiv">
+            <p>총 [[${list.result.totalElements}]]개의 [[${vo.type}]] 상품이 존재합니다.</p>
             <ul style="display: inline-block" th:each="list:${list.result.content}">
                 <li style="display: inline-block; margin-top: 100px; padding: 0 15px 0 15px">
                     <div id="typeImgDiv">
-                        <a id="typeImgPid" th:href="@{/shop/view?productId={id} (id=${list.id})}"><img style="width: 450px;height: 350px; "
-                                                                                                             th:src="@{'/img/' + ${list.url}}"></a>
+                        <a id="typeImgPid" th:href="@{/shop/view?productId={id} (id=${list.id})}"><img
+                                style="width: 450px;height: 350px; "
+                                th:src="@{'/img/' + ${list.url}}"></a>
                     </div>
                     <div class="productTitle">
                         [[${list.title}]]
@@ -50,8 +52,7 @@
         </ul>
 
 
-
-        <form id="form" th:action="@{question}" method="get">
+        <form id="form" th:action="@{type}" method="get">
             <input type="hidden" name="page" th:value="${vo.page}">
             <input type="hidden" name="size" th:value="${vo.size}">
             <input type="hidden" name="type" th:value="${vo.type}">
@@ -74,7 +75,6 @@
                 form.find('[name="page"]').val($(this).attr('href'));
                 form.submit();
             });
-
 
 
         });

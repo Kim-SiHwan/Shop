@@ -13,27 +13,36 @@
         <table class="table table-hover">
             <tr>
                 <td>상품번호</td>
+                <td>체크박스</td>
+                <td>상품사진</td>
                 <td>상품이름</td>
                 <td>상품가격</td>
                 <td>주문수량</td>
+                <td>카트관리</td>
             </tr>
             <tr th:each="list : ${cart.products}">
-                <td id="bb">[[${list.productId}]]</td>
+                <td>[[${list.productId}]]</td>
+                <td><input type="checkbox"  checked="true" name="products" th:value="${list.productId}" id="checkBox"></td>
                 <td>
                     <a th:href="@{/shop/view?productId={id} (id=${list.productId})}">
                     <img style="width: 450px;height: 350px; " th:src="@{'/img/' + ${list.url}}"></a>
                 </td>
 
                 <td>[[${list.title}]]</td>
-                <td>[[${list.price}]]</td>
+                <td name="price">[[${list.price}]]</td>
                 <td>[[${cart.totalCount}]]</td>
+                <td><button class="btn btn-sm btn-outline-danger" id="removeOneCartItem">삭제</button></td>
 
             </tr>
         </table>
+        <button class="btn btn-sm btn-outline-danger float-right" id="removeSelectCartItem">선택된 상품 삭제</button><br>
+        <button id="orderBtn" class="btn btn-primary" style="width: 100%">주문하기</button>
 
-        <button id="orderBtn">주문</button>
+        <div id="payZone">
 
-        <form id="form" th:action="@{/shop/order}" method="get">
+        </div>
+
+        <form id="form" th:action="@{/shop/order}" method="post">
 
         </form>
 
@@ -49,26 +58,68 @@
     <script th:inline=javascript>
         $(document).on("ready", function (e) {
 
-            var productIds = new Array();
             var counts = new Array();
             var prices = new Array();
-            $(document).on('click', '#bb', function (e) {
-                var selectId = $(this).text();
-                var selectPrice = $(this).next().next().next().text();
-                productIds.push(selectId);
-                counts.push(1);
-                prices.push(selectPrice);
-                alert(productIds + " " + counts + " " + prices);
-
+            var productIds;
+            var pay=0;
+            var tempProductIds = new Array();
+            var removeProductIds = new Array();
+            var form = $('#form');
+            productIds=isChecked(pay,tempProductIds);
+            $(document).on('click', '#checkBox', function (e) {
+                tempProductIds= new Array();
+                prices=new Array();
+                counts = new Array();
+                pay=0;
+                productIds=isChecked(pay,tempProductIds);
             });
 
+            function isChecked(pay, tempProductIds)
+            {
+                var c= document.getElementsByName("products").length;
+                for(var i=0; i<c; i++)
+                {
+                    if(document.getElementsByName("products")[i].checked===true){
+                        pay+= parseInt(document.getElementsByName("price")[i].textContent);
+                        tempProductIds.push(document.getElementsByName('products')[i].value);
+                        prices.push(document.getElementsByName("price")[i].textContent);
+                        counts.push(1);
+                    }
+                }
+                productIds=tempProductIds;
+                var string="<p style='font-size: 20px'>결제 금액은 <b>"+pay+"</b>원 입니다.</p>"
+                $("#payZone").html(string)
+                return productIds;
+            }
+
             $(document).on('click', '#orderBtn', function (e) {
-                var form = $('#form');
+                if(productIds.length===0){
+                    alert("선택된 상품이 없습니다.");
+                    return false;
+                }
                 form.append("<input type='hidden' name='productIds' value='" + productIds + "'>");
                 form.append("<input type='hidden' name='count' value='" + counts + "'>");
                 form.append("<input type='hidden' name='price' value='" + prices + "'>");
                 form.append("<input type='hidden' name='userName' value='오이'>");
+                form.attr('method','get');
+                form.submit();
+            });
 
+            $(document).on('click','#removeOneCartItem',function (e){
+                var id = $(this).parent().prev().prev().prev().prev().prev().prev().text();
+                removeProductIds.push(id);
+                form.append("<input type='hidden' name='productIds' value='" + removeProductIds + "'>");
+                form.append("<input type='hidden' name='_method' value='delete'>");
+                form.attr('action','remove_cart');
+                form.submit();
+
+            });
+
+            $(document).on('click','#removeSelectCartItem',function (e){
+                removeProductIds = productIds;
+                form.append("<input type='hidden' name='productIds' value='" + removeProductIds + "'>");
+                form.append("<input type='hidden' name='_method' value='delete'>");
+                form.attr('action','remove_cart');
                 form.submit();
             });
         });

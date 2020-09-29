@@ -1,0 +1,72 @@
+<html xmlns xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.ney.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="panel-body">
+        <div id="joinDiv">
+            <form id="form" th:action="@{/members/join}" method="post" th:object="${memberForm}">
+
+                <label th:for="name">이름</label>
+                <input class="form-control" type="text" id="name" th:field="*{userName}" placeholder="이름 입력">
+
+                <label th:for="city">거주지</label>
+                <input class="form-control" type="text" th:field="*{city}" placeholder="거주지 입력">
+
+                <label th:for="street">도로명</label>
+                <input class="form-control" type="text" th:field="*{street}" placeholder="도로명 입력">
+
+                <label th:for="zipcode">우편번호</label>
+                <input class="form-control" type="text" th:field="*{zipcode}" placeholder="우편번호 입력">
+
+                <label th:for="password">비밀번호</label>
+                <input class="form-control" type="password" placeholder="비밀번호 입력" th:field="*{password}">
+
+                <label th:for="password2">비밀번호 재입력</label>
+                <input class="form-control" type="password" placeholder="비밀번호 재입력" id="password2">
+
+                <label th:for="phone">전화번호</label>
+                <input class="form-control" type="text" placeholder="전화번호 입력" th:field="*{phone}">
+
+                <label th:for="email">이메일</label>
+                <input class="form-control" type="text" placeholder="이메일 입력" th:field="*{email}">
+
+                <button id="submitBtn" type="submit" class="btn btn-outline-primary float-right">가입</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="script">
+    <script th:inline=javascript>
+        $(document).on("ready", function (e) {
+            $(document).on("click", "#submitBtn", function (e) {
+                if ($("#name").val().length === 0) {
+                    alert("이름을 입력하세요.");
+                    $("#name").focus();
+                    return false;
+                }
+
+                if ($('#password').val() != $('#password2').val()) {
+                    alert('비밀번호가 다릅니다.');
+                    $('#password').focus();
+                    return false;
+                }
+
+            });
+
+
+        });
+
+    </script>
+</th:block>
+
+
+</body>
+</html>
+

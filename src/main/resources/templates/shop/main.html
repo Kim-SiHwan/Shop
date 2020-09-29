@@ -28,15 +28,17 @@
                 <ul style="display: inline-block" th:each="list:${itemList}">
                     <li style="display: inline-block; margin-top: 100px; padding: 0 15px 0 15px">
                         <div id="newImgDiv">
-                            <a id="newImgPid" th:href="@{/shop/view?productId={id} (id=${list.productId})}"><img style="width: 450px;height: 350px; "
-                                                                          th:src="@{'/img/' + ${list.url}}"></a>
+                            <a id="newImgPid" th:href="@{/shop/view?productId={id} (id=${list.productId})}">
+                                <img th:if="${list.quantity}!=0" style="width: 450px;height: 350px; " th:src="@{'/img/' + ${list.url}}">
+                                <img th:if="${list.quantity}==0" style="width: 450px;height: 350px; opacity: 0.2;" th:src="@{'/img/' + ${list.url}}">
+                            </a>
                         </div>
                         <div class="productTitle">
-                            [[${list.title}]]
+                            상품명 : [[${list.title}]]
                             <br>
-                            [[${list.price}]]
+                            가격 : [[${list.price}]]
                             <br>
-                            [[${list.reviewCount}]]
+                            리뷰갯수 : [[${list.reviewCount}]]
                         </div>
                     </li>
                 </ul>
@@ -50,8 +52,10 @@
                 <ul style="display: inline-block" th:each="list:${typeList[0]}">
                     <li style="display: inline-block; margin-top: 100px; padding: 0 15px 0 15px">
                         <div id="chairImgDiv">
-                            <a id="chairImgPid" th:href="@{/shop/view?productId={id} (id=${list.productId})}"><img style="width: 450px;height: 350px; "
-                                                                            th:src="@{'/img/' + ${list.url}}"></a>
+                            <a id="chairImgPid" th:href="@{/shop/view?productId={id} (id=${list.productId})}">
+                                <img th:if="${list.quantity}!=0" style="width: 450px;height: 350px; " th:src="@{'/img/' + ${list.url}}">
+                                <img th:if="${list.quantity}==0" style="width: 450px;height: 350px; opacity: 0.2;" th:src="@{'/img/' + ${list.url}}">
+                            </a>
                         </div>
                         <div class="productTitle">
                             [[${list.title}]]
@@ -71,8 +75,10 @@
                 <ul style="display: inline-block" th:each="list:${typeList[1]}">
                     <li style="display: inline-block; margin-top: 100px; padding: 0 15px 0 15px">
                         <div id="deskImgDiv">
-                            <a id="deskImgPid"th:href="@{/shop/view?productId={id} (id=${list.productId})}"><img style="width: 450px;height: 350px; "
-                                                                            th:src="@{'/img/' + ${list.url}}"></a>
+                            <a id="deskImgPid"th:href="@{/shop/view?productId={id} (id=${list.productId})}">
+                                <img th:if="${list.quantity}!=0" style="width: 450px;height: 350px; " th:src="@{'/img/' + ${list.url}}">
+                                <img th:if="${list.quantity}==0" style="width: 450px;height: 350px; opacity: 0.2;" th:src="@{'/img/' + ${list.url}}">
+                            </a>
                         </div>
                         <div class="productTitle">
                             [[${list.title}]]
@@ -92,8 +98,10 @@
                 <ul style="display: inline-block" th:each="list:${typeList[2]}">
                     <li style="display: inline-block; margin-top: 100px; padding: 0 15px 0 15px">
                         <div id="sofaImgDiv">
-                            <a id="sofaImgPid" th:href="@{/shop/view?productId={id} (id=${list.productId})}"><img style="width: 450px;height: 350px; "
-                                                                            th:src="@{'/img/' + ${list.url}}"></a>
+                            <a id="sofaImgPid" th:href="@{/shop/view?productId={id} (id=${list.productId})}">
+                                <img th:if="${list.quantity}!=0" style="width: 450px;height: 350px; " th:src="@{'/img/' + ${list.url}}">
+                                <img th:if="${list.quantity}==0" style="width: 450px;height: 350px; opacity: 0.2;" th:src="@{'/img/' + ${list.url}}">
+                            </a>
                         </div>
                         <div class="productTitle">
                             [[${list.title}]]
@@ -113,8 +121,10 @@
                 <ul style="display: inline-block" th:each="list:${typeList[3]}">
                     <li style="display: inline-block; margin-top: 100px; padding: 0 15px 0 15px">
                         <div id="bedImgDiv">
-                            <a id="bedImgPid" th:href="@{/shop/view?productId={id} (id=${list.productId})}"><img style="width: 450px;height: 350px; "
-                                                                            th:src="@{'/img/' + ${list.url}}"></a>
+                            <a id="bedImgPid" th:href="@{/shop/view?productId={id} (id=${list.productId})}">
+                                <img th:if="${list.quantity}!=0" style="width: 450px;height: 350px; " th:src="@{'/img/' + ${list.url}}">
+                                <img th:if="${list.quantity}==0" style="width: 450px;height: 350px; opacity: 0.2;" th:src="@{'/img/' + ${list.url}}">
+                            </a>
                         </div>
                         <div class="productTitle">
                             [[${list.title}]]

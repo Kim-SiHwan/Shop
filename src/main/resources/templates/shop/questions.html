@@ -1,0 +1,151 @@
+<html xmlns xmlns:th="http://www.w3.org/1999/xhtml" : th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.ney.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/defaultLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="panel-body">
+        <p>총 [[${list.result.totalElements}]]개의 문의가 존재합니다.</p>
+        <table class="table table-hover">
+            <tr>
+                <td width="100">문의번호</td>
+                <td width="350">문의상품</td>
+                <td>문의제목</td>
+                <td width="100">문의고객</td>
+                <td width="200">문의일자</td>
+                <td width="100">답변여부</td>
+            </tr>
+
+            <tr th:each="list : ${list.result.content}">
+                <td>[[${list.id}]]</td>
+                <td><img style="width: 250px;height: 200px;"th:href="${list.product.id}" th:src="@{'/img/' + ${list.product.id}+'.jpg'}"></td>
+                <td id="selectQuestionTitle" data-target="#myModal" data-toggle="modal">[[${list.title}]]</td>
+                <input type="hidden" th:value="${list.content}">
+                <input type="hidden" th:value="${list.answer}">
+                <td>[[${list.member.userName}]]</td>
+                <td>[[${#temporals.format(list.createDate,('yyyy-MM-dd HH:mm'))}]]</td>
+                <td>[[${list.whether}]]</td>
+            </tr>
+        </table>
+
+        <form th:action="@{question}" method="get" style="margin-left: 500px">
+            <select name="type" class="form-control" style="width: 100px; text-align: center; display:inline;">
+                <option>----</option>
+                <option value="t">Title</option>
+                <option value="w">Writer</option>
+                <option value="c">Content</option>
+            </select>
+
+            <input name="keyword" class="form-control" style="width: 440px;display:inline;">
+            <button class="btn btn-primary btn-sm" type="submit" style="height: 37px">검색</button>
+        </form>
+
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:if="${list.prevPage}">
+                <a class="page-link" th:href="${list.prevPage.pageNumber}+1">PREV [[${list.prevPage.pageNumber}+1]]</a>
+            </li>
+            <li class="page-item" th:each="pageList :${list.pageList}">
+                <a class="page-link" th:href="${pageList.pageNumber}+1">[[${pageList.pageNumber}+1]]</a>
+            </li>
+            <li class="page-item" th:if="${list.nextPage}">
+                <a class="page-link" th:href="${list.nextPage.pageNumber}+1">NEXT [[${list.nextPage.pageNumber}+1]]</a>
+            </li>
+        </ul>
+
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <p class="modal-title" id="modalHeader">상품문의</p>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body" id="productImg">
+
+                    </div>
+                    <div class="modal-body" id="questionTitle">
+                        Modal Body
+                    </div>
+                    <div class="modal-body" id="questionContent">
+                        Modal body..
+                    </div>
+                    <div class="modal-body" id="answerContent">
+                        Modal body
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-success" id="submitBtn"
+                                data-dismiss="modal">작성</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <form id="form" th:action="@{questions}" method="post">
+            <input type="hidden" name="page" th:value="${vo.page}">
+            <input type="hidden" name="size" th:value="${vo.size}">
+            <input type="hidden" name="type" th:value="${vo.type}">
+            <input type="hidden" name="keyword" th:value="${vo.keyword}">
+        </form>
+
+    </div>
+</div>
+
+
+</body>
+
+
+<th:block layout:fragment="script">
+    <script th:inline=javascript>
+        $(document).on("ready", function (e) {
+
+            var form = $('#form');
+            var qid ="";
+            $(document).on('click', '.pagination a', function (e) {
+                e.preventDefault();
+                form.attr('method','get');
+                form.find('[name="page"]').val($(this).attr('href'));
+                form.submit();
+            });
+
+            $(document).on('click','#selectQuestionTitle',function (e){
+                var qTitle = $(this).text();
+                var qContent =$(this).next().val();
+                var qAnswer =$(this).next().next().val();
+                var qUser = $(this).next().next().next().text();
+                var qProductUrl = $(this).prev().children().attr('href');
+                qid = $(this).prev().prev().text();
+                if(qAnswer.length<=1)
+                    qAnswer = "아직 답변이 존재하지 않습니다.";
+                $('#productImg').html("상품번호 : "+qProductUrl+"<br><img style='width: 300px;height: 250px; ' src='/img/"+qProductUrl+".jpg'>");
+                $('#questionTitle').html("<p>작성자 : "+qUser+"</p>" +
+                    "<p>문의제목 : </p><input type='text' class='form-control' width='300' value='"+qTitle+"' readonly='readonly'>");
+                $('#questionContent').html("<p>질문내용 : </p><textarea class='form-control' rows='10' readonly='readonly'>"+qContent+"</textarea>");
+                $('#answerContent').html("<p>답변내용 : </p><textarea id='answerText' class='form-control' rows='10'>"+qAnswer+"</textarea>");
+
+            });
+
+            $(document).on('click','#submitBtn',function (e){
+
+                var answer = $('#answerText').val();
+                form.append("<input type='hidden' name='_method' value='put'>");
+                form.append("<input type='hidden' name='answer' value='" + answer + "'>");
+                form.append("<input type='hidden' name='questionId' value='" + qid + "'>");
+                form.attr('action','update_questions');
+                form.submit();
+
+            });
+
+
+
+
+        });
+
+    </script>
+</th:block>
+</html>

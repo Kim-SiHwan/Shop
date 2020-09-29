@@ -12,20 +12,30 @@
 
         <table class="table table-hover">
             <tr>
-                <td>주문번호</td>
+                <td width="150">주문번호</td>
                 <td>주문상태</td>
+                <td>배송현황</td>
                 <td>주문일자</td>
+                <td width="200">주문관리</td>
             </tr>
 
             <tr th:each="list : ${list}">
                 <td>
                     <a id="ordersViewBtn" class="btn btn-outline-info" role="button"
-                th:href="@{/shop/get_orders?ordersId={id} (id=${list.ordersId})}">[[${list.ordersId}]]</a>
+                       th:href="@{/shop/get_orders?ordersId={id} (id=${list.ordersId})}">[[${list.ordersId}]]</a>
                 </td>
                 <td>[[${list.orderState}]]</td>
+                <td>[[${list.deliveryState}]]</td>
                 <td>[[${#temporals.format(list.createDate,('yyyy-MM-dd HH:mm'))}]]</td>
+                <td>
+                    <button id="removeOrderBtn" class="btn btn-outline-danger" th:value="${list.ordersId}">취소</button>
+                </td>
             </tr>
         </table>
+
+        <form id="form" th:action="@{order}" method="post">
+            <input type="hidden" name="_method" value="delete">
+        </form>
 
 
     </div>
@@ -39,6 +49,12 @@
     <script th:inline=javascript>
         $(document).on("ready", function (e) {
 
+            $(document).on('click', '#removeOrderBtn', function (e) {
+                var form = $('#form');
+                var oid = $(this).val();
+                form.append("<input type='hidden' name='ordersId' value='" + oid + "'>");
+                form.submit();
+            });
         });
 
     </script>

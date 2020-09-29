@@ -10,17 +10,22 @@
 <div layout:fragment="content">
     <div class="panel-body">
 
-        <table class="table table-hover">
+        <p class="pSize20"><b>Order / Payment</b></p>
+        <p class="pSize13">주문 / 결제</p>
+        <p>주문 고객 : 시큐리티 ㄱㄱ</p>
+        <hr>
+
+            <table class="table table-hover">
             <tr>
                 <td>상품번호</td>
                 <td>상품</td>
-                <td>상품가격</td>
+                <td>주문가격</td>
                 <td>주문수량</td>
             </tr>
             <tr th:each="list , i : ${orderForm.productIds}">
                 <td>[[${list}]]</td>
                 <td><img style="width: 450px;height: 350px; " th:src="@{'/img/' + ${list}+'.jpg'}"></td>
-                <td>[[${orderForm.price[i.index]}]]</td>
+                <td>[[${orderForm.price[i.index] * orderForm.count[i.index]}]]</td>
                 <td>[[${orderForm.count[i.index]}]]</td>
             </tr>
         </table>
@@ -30,7 +35,8 @@
             <input th:each="count : ${orderForm.count}" type="hidden" name="count" th:value="${count}">
             <input th:each="price : ${orderForm.price}" type="hidden" name="price" th:value="${price}">
             <input type="hidden" name="userName" value="오이">
-            <button id="submitBtn" type="submit" class="btn btn-primary">구매</button>
+
+            <button id="submitBtn" type="submit" class="btn btn-primary" style="width: 100%">결제하기</button>
         </form>
 
     </div>

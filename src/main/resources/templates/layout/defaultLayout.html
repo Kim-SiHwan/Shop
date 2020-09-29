@@ -13,6 +13,8 @@
     <link rel="stylesheet" th:href="@{/css/main.css}">
     <link rel="stylesheet" th:href="@{/css/view.css}">
     <link rel="stylesheet" th:href="@{/css/type.css}">
+    <link rel="stylesheet" th:href="@{/css/join.css}">
+
     <!-- icon -->
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
@@ -37,17 +39,17 @@
         <a th:href="@{/members/join}" id="joinLink">회원가입</a>
         <a th:href="@{/shop/cart}" id="cartLink">장바구니</a>
         <a th:href="@{/shop/orders}" id="myLink">마이페이지</a>
-        <a th:href="@{/shop/question}" id="Q&ALink">Q&A</a>
-        <a th:href="@{/members/join}" id="reviewLink">상품후기</a>
-
-        <hr>
+        <a th:href="@{/shop/questions}" id="Q&ALink">Q&A</a>
     </div>
     <div id="middleHeader">
-        <a th:href="@{/shop/main}" id="returnMain">Atelier</a>
-        <hr>
+        <a th:href="@{/shop/main}" id="returnMain" role="button" class="btn btn-outline-warning">Atelier</a>
     </div>
     <div id="dropDownMenu">
-        <ul id="mainMenu">드롭다운</ul>
+        <a th:href="@{/shop/type?type={type} (type='의자')}">의자</a>
+        <a th:href="@{/shop/type?type={type} (type='책상')}">책상</a>
+        <a th:href="@{/shop/type?type={type} (type='침대')}">침대</a>
+        <a th:href="@{/shop/type?type={type} (type='소파')}">소파</a>
+
     </div>
 </div>
 

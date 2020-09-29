@@ -9,6 +9,45 @@
 
 <div layout:fragment="content">
     <div class="panel-body">
+
+        <div id="buyerDiv">
+            <p class="pSize20"><b>Buyer Info</b></p>
+            <p class="pSize13"> 구매자 정보</p><br>
+            <table id="buyerTable" class="table table-borderless" >
+                <tr>
+                    <td width="100">구매자 : </td>
+                    <td>시큐리티로 ㄱㄱ </td>
+                </tr>
+                <tr>
+                    <td>전화번호 : </td>
+                    <td>[[${orders.memberInfo.phone}]]</td>
+                </tr>
+                <tr>
+                    <td>이메일 : </td>
+                    <td>[[${orders.memberInfo.email}]]</td>
+                </tr>
+            </table>
+        </div>
+        <hr>
+
+        <div id="recipientDiv">
+            <p class="pSize20"><b>Recipient Info</b></p>
+            <p class="pSize13"> 배송지 정보</p><br>
+            <table id="recipientTable" class="table table-borderless" >
+                <tr>
+                    <td width="100">City</td>
+                    <td>[[${orders.delivery.city}]]</td>
+                </tr>
+                <tr>
+                    <td>Street</td>
+                    <td>[[${orders.delivery.street}]]</td>
+                </tr>
+                <tr>
+                    <td>ZipCode</td>
+                    <td>[[${orders.delivery.zipcode}]]</td>
+                </tr>
+            </table>
+        </div>
         <table class="table table-hover">
             <tr>
                 <td>주문상품</td>
@@ -24,6 +63,8 @@
                 </td>
 
                 <td>[[${list.product.title}]]</td>
+                <td>1</td>
+                <td>[[${list.product.price}]]</td>
 
             </tr>
         </table>
