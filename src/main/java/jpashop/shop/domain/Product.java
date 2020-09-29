@@ -1,6 +1,7 @@
 package jpashop.shop.domain;
 
 
+import jpashop.shop.exception.NotEnoughStockException;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -44,11 +45,11 @@ public class Product {
     }
 
     public void removeStockQuantity(int quantity) {
-        //재고처리 해야함.
         int tempStock = this.quantity -= quantity;
-        if (tempStock >= 0) {
-            this.quantity = tempStock;
+        if( tempStock<0){
+            throw new NotEnoughStockException("재고 부족");
         }
+        this.quantity = tempStock;
     }
 
 
