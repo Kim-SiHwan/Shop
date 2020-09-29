@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -41,8 +42,8 @@ public class OrderController {
     }
 
     @GetMapping("/orders")
-    public String getOrders(String userName,Model model){
-        userName = "오이";
+    public String getOrders(Principal principal, Model model){
+        String userName = principal.getName();
         List<OrdersResponseDto> list = ordersService.getOrders(userName);
         model.addAttribute("list",list);
         return "/shop/orders";

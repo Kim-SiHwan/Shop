@@ -5,6 +5,7 @@ import jpashop.shop.domain.memberInfo.Address;
 import jpashop.shop.domain.memberInfo.Info;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -33,10 +34,10 @@ public class MemberRequestDto {
     @Size(min = 1 , message = "1자이상 입력해주세요.")
     private String zipcode;
 
-    public Member toEntity(MemberRequestDto memberRequestDto){
+    public Member toEntity(MemberRequestDto memberRequestDto , PasswordEncoder pwEncoder){
         return Member.createMember()
                 .userName(memberRequestDto.getUserName())
-                .password(memberRequestDto.getPassword())
+                .password(pwEncoder.encode(memberRequestDto.getPassword()))
                 .createDate(LocalDateTime.now())
                 .address(new Address(memberRequestDto.getCity(),memberRequestDto.getStreet(),memberRequestDto.getZipcode()))
                 .info(new Info(memberRequestDto.getPhone(),memberRequestDto.getEmail()))

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -29,16 +30,16 @@ public class CartController {
     }
 
     @GetMapping("/cart")
-    public String viewCart(String userName, Model model){
-        userName="오이";
-        CartResponseDto cart = cartService.getCart(userName);
+    public String viewCart(Principal principal, Model model){
+
+        CartResponseDto cart = cartService.getCart(principal.getName());
         model.addAttribute("cart",cart);
         return "/shop/cart";
     }
 
     @DeleteMapping("/remove_cart")
     public String removeCart(CartRequestDto cartRequestDto){
-        cartService.removeCart(cartRequestDto.getProductIds(),"오이");
+        cartService.removeCart(cartRequestDto.getProductIds(),cartRequestDto.getUserName());
         return "redirect:/shop/cart";
     }
 }

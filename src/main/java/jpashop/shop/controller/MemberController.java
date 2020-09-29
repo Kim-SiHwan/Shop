@@ -4,6 +4,7 @@ import jpashop.shop.domain.Member;
 import jpashop.shop.dto.requestDto.MemberRequestDto;
 import jpashop.shop.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ import javax.validation.Valid;
 public class MemberController {
 
     private final MemberService memberService;
+    private final PasswordEncoder pwEncoder;
 
     @GetMapping("/join")
     public String joinForm(Model model){
@@ -33,7 +35,7 @@ public class MemberController {
         if(result.hasErrors()){
             return "/members/createMember";
         }
-        Member member = memberRequestDto.toEntity(memberRequestDto);
+        Member member = memberRequestDto.toEntity(memberRequestDto,pwEncoder);
         memberService.join(member);
         return "redirect:/shop/main";
     }

@@ -22,7 +22,6 @@ public class ReviewController {
 
     @GetMapping("/{productId}")
     public ResponseEntity getAllByProductId(@PathVariable("productId") Long productId){
-        log.info("ccc:"+productId);
         return new ResponseEntity(getReviews(productId), HttpStatus.OK);
     }
 
