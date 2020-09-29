@@ -146,6 +146,8 @@
             var productIds = new Array();
             var form = $('#form');
             var productId = [[${view.productId}]];
+            var userName = [[${#authentication.name}]];
+
 
             function getReviews(data) {
                 var str = "";
@@ -168,7 +170,7 @@
 
             $(document).on('click', '#addReviewBtn', function (e) {
                 var reviewContent = $('#addReviewContent').val();
-                obj = {productId: [[${view.productId}]], content: reviewContent, userName: "오이"};
+                obj = {productId: [[${view.productId}]], content: reviewContent, userName: userName};
 
                 console.log(obj);
                 reviewManager.add(obj, getReviews);
@@ -178,9 +180,13 @@
 
                 var selectCount = $('#selectQuantity').val();
                 productIds.push(productId);
+                if (userName === 'anonymousUser') {
+                    alert("로그인이 필요한 서비스입니다.");
+                    return false;
+                }
                 form.append("<input type='hidden' name='productIds' value='" + productIds + "'>");
                 form.append("<input type='hidden' name='count' value='" + selectCount + "'>");
-                form.append("<input type='hidden' name='userName' value='오이'>");
+                form.append("<input type='hidden' name='userName' value='"+userName+"'>");
                 form.attr('action', 'add_cart');
                 form.submit();
             });
@@ -190,19 +196,26 @@
                 var counts = new Array();
                 var prices = new Array();
                 var selectCount = $('#selectQuantity').val();
-
+                if (userName === 'anonymousUser') {
+                    alert("로그인이 필요한 서비스입니다.");
+                    return false;
+                }
                 counts.push(selectCount);
                 prices.push(selectCount * [[${view.price}]]);
                 form.append("<input type='hidden' name='productIds' value='" + productIds + "'>");
                 form.append("<input type='hidden' name='count' value='" + counts + "'>");
                 form.append("<input type='hidden' name='price' value='" + prices + "'>");
-                form.append("<input type='hidden' name='userName' value='오이'>");
+                form.append("<input type='hidden' name='userName' value='"+userName+"'>");
                 form.attr('method', 'get');
                 form.attr('action', 'order');
                 form.submit();
             });
 
             $(document).on('click', '#makeQuestion', function (e) {
+                if (userName === 'anonymousUser') {
+                    alert("로그인이 필요한 서비스입니다.");
+                    return false;
+                }
                 $('#productImg').show();
                 $('#questionTitle').html("<input type='text' class='form-control' width='300' placeholder='제목입력'>")
                 $('#questionContent').html("<textarea class='form-control' rows='10' placeholder='내용입력'></textarea>")
@@ -218,7 +231,7 @@
                 form.append("<input type='hidden' name='title' value='" + title + "'>");
                 form.append("<input type='hidden' name='question' value='" + content + "'>");
                 form.append("<input type='hidden' name='answer' value=''>");
-                form.append("<input type='hidden' name='userName' value='오이'>");
+                form.append("<input type='hidden' name='userName' value='"+userName+"'>");
                 form.attr('action', 'add_questions');
                 form.submit();
             });

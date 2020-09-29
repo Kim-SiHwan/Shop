@@ -65,6 +65,7 @@
             var tempProductIds = new Array();
             var removeProductIds = new Array();
             var form = $('#form');
+            var userName= [[${#authentication.name}]];
             productIds=isChecked(pay,tempProductIds);
             $(document).on('click', '#checkBox', function (e) {
                 tempProductIds= new Array();
@@ -100,7 +101,7 @@
                 form.append("<input type='hidden' name='productIds' value='" + productIds + "'>");
                 form.append("<input type='hidden' name='count' value='" + counts + "'>");
                 form.append("<input type='hidden' name='price' value='" + prices + "'>");
-                form.append("<input type='hidden' name='userName' value='오이'>");
+                form.append("<input type='hidden' name='userName' value='"+userName+"'>");
                 form.attr('method','get');
                 form.submit();
             });
@@ -110,6 +111,7 @@
                 removeProductIds.push(id);
                 form.append("<input type='hidden' name='productIds' value='" + removeProductIds + "'>");
                 form.append("<input type='hidden' name='_method' value='delete'>");
+                form.append("<input type='hidden' name='userName' value='"+userName+"'>");
                 form.attr('action','remove_cart');
                 form.submit();
 
@@ -119,6 +121,7 @@
                 removeProductIds = productIds;
                 form.append("<input type='hidden' name='productIds' value='" + removeProductIds + "'>");
                 form.append("<input type='hidden' name='_method' value='delete'>");
+                form.append("<input type='hidden' name='userName' value='"+userName+"'>");
                 form.attr('action','remove_cart');
                 form.submit();
             });

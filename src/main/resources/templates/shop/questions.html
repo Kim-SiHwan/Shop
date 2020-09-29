@@ -76,9 +76,11 @@
                     <div class="modal-body" id="answerContent">
                         Modal body
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-success" id="submitBtn"
-                                data-dismiss="modal">작성</button>
+                                data-dismiss="modal"
+                        th:if="${#authentication.authorities[0].authority=='ADMIN'}">작성</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
                     </div>
 
