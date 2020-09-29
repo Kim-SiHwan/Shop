@@ -8,7 +8,7 @@ import org.springframework.data.domain.Sort;
 @Getter
 public class PageVo {
 
-    private static final int default_size = 5;
+    private static final int default_size = 6;
     private static final int default_max_size = 50;
 
     private int page;
