@@ -42,7 +42,6 @@ public class Member {
     private List<Orders> orders = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id")
     private Cart cart;
 
     @Builder(builderClassName = "createMember", builderMethodName = "createMember")
