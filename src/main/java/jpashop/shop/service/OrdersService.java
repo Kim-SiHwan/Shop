@@ -49,16 +49,16 @@ public class OrdersService {
             orders.addOrdersLine(orderLine);
         }
 
-        /*Delivery delivery = Delivery.createDelivery()
+        Delivery delivery = Delivery.createDelivery()
                 .deliveryStatus(DeliveryStatus.READY)
                 .createDate(LocalDateTime.now())
                 .address(member.getAddress())
                 .build();
-*/
 
-       // orders.addDelivery(delivery);
+
+        orders.addDelivery(delivery);
         ordersRepository.save(orders);
-        cartService.removeCart(requestDto.getProductIds(), requestDto.getUserName(), 0);
+        cartService.removeCart(requestDto.getProductIds(), requestDto.getUserName());
         return orders.getId();
     }
 
