@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 
@@ -48,11 +49,9 @@ public class ReviewServiceTest {
 
         Product product = productRepository.findById(1L).get();
     //when
-        Long reviewId = reviewService.addReview(reviewRequestDto);
-        Review review = reviewRepository.findById(reviewId).get();
+        Boolean checkOrdered = reviewService.addReview(reviewRequestDto);
     //then
-        assertEquals("리뷰1",review.getContent());
-        assertEquals("리뷰1",product.getReviews().get(0).getContent());
+        assertEquals(false,checkOrdered);
 
     }
 
@@ -82,6 +81,18 @@ public class ReviewServiceTest {
                     .url("path")
                     .build();
             productRepository.save(product);
+        }
+    }
+
+    @Test
+    public void dd(){
+        for(int i=1; i<=20; i++){
+            Random random = new Random();
+            for(int j=1; j<= random.nextInt(15); j++) {
+
+                System.out.println("INSERT INTO question (content, title , whether, create_date, answer , member_id, product_id )" +
+                        " VALUES ('DummyQuestion', 'DummyTitle' , 'N' ,now(), '아직 답변이 존재하지 않습니다.' , 1 , "+i+"   );");
+            }
         }
     }
 }

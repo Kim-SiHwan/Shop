@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -25,11 +26,16 @@ public class ReviewController {
         return new ResponseEntity(getReviews(productId), HttpStatus.OK);
     }
 
+    @Secured(value = {"ROLE_USER","ROLE_ADMIN"})
     @PostMapping("/{productId}")
     public ResponseEntity addReview(@PathVariable("productId") Long productId,
                                     @RequestBody ReviewRequestDto reviewRequestDto){
-        reviewService.addReview(reviewRequestDto);
-        return new ResponseEntity(getReviews(productId), HttpStatus.CREATED);
+        Boolean checkOrdered = reviewService.addReview(reviewRequestDto);
+        if(checkOrdered==true) {
+            return new ResponseEntity(getReviews(productId), HttpStatus.CREATED);
+        }else{
+            return new ResponseEntity(getReviews(productId), HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
