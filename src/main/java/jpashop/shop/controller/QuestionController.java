@@ -7,6 +7,7 @@ import jpashop.shop.dto.requestDto.QuestionRequestDto;
 import jpashop.shop.dto.responseDto.QuestionResponseDto;
 import jpashop.shop.service.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,6 +32,7 @@ public class QuestionController {
         return "/shop/questions";
     }
 
+    @Secured(value = {"ROLE_USER","ROLE_ADMIN"})
     @PostMapping("/add_questions")
     public String addQuestion(QuestionRequestDto requestDto,RedirectAttributes rt){
         questionService.addQuestion(requestDto);
@@ -38,6 +40,7 @@ public class QuestionController {
         return "redirect:/shop/view";
     }
 
+    @Secured(value = {"ROLE_ADMIN"})
     @PutMapping("/update_questions")
     public String answerForQuestion(QuestionRequestDto requestDto){
         questionService.answerQuestion(requestDto);
