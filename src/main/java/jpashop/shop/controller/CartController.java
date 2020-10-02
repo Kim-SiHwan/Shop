@@ -5,6 +5,7 @@ import jpashop.shop.dto.requestDto.CartRequestDto;
 import jpashop.shop.dto.responseDto.CartResponseDto;
 import jpashop.shop.service.CartService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +23,7 @@ import java.util.List;
 public class CartController {
     private final CartService cartService;
 
+    @Secured(value = {"ROLE_USER","ROLE_ADMIN"})
     @PostMapping("/add_cart")
     public String addCart(CartRequestDto cartRequestDto, RedirectAttributes rt){
         cartService.addCart(cartRequestDto);
@@ -29,6 +31,7 @@ public class CartController {
         return "redirect:/shop/view";
     }
 
+    @Secured(value = {"ROLE_USER","ROLE_ADMIN"})
     @GetMapping("/cart")
     public String viewCart(Principal principal, Model model){
 
