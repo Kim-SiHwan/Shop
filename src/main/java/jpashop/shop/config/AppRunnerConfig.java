@@ -1,10 +1,11 @@
 package jpashop.shop.config;
 
-import jpashop.shop.domain.Member;
+import jpashop.shop.domain.*;
 import jpashop.shop.domain.memberInfo.Address;
 import jpashop.shop.domain.memberInfo.Info;
-import jpashop.shop.service.MemberService;
-import jpashop.shop.service.ProductService;
+import jpashop.shop.repository.ProductRepository;
+import jpashop.shop.repository.ReviewRepository;
+import jpashop.shop.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Random;
 
 @Slf4j
 @Component
@@ -20,41 +22,43 @@ import java.time.LocalDateTime;
 public class AppRunnerConfig implements ApplicationRunner {
 
     private final MemberService memberService;
-    private final ProductService productService;
+    private final ProductRepository productRepository;
+    private final ReviewRepository reviewRepository;
+    private final QuestionService questionService;
+    private final OrdersService ordersService;
     private final PasswordEncoder pwEncoder;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception
-    {
-        Member member1=Member.createMember()
-                .userName("오이")
-                .password(pwEncoder.encode("123"))
-                .address(new Address("감자","토마토","양배추"))
+    public void run(ApplicationArguments args) throws Exception {
+        Member member1 = Member.createMember()
+                .userName("김시환")
+                .password(pwEncoder.encode("1234"))
+                .address(new Address("인천", "무내미", "1234"))
                 .createDate(LocalDateTime.now())
-                .info(new Info("01012345678","naver.com"))
+                .info(new Info("01012345678", "naver.com"))
                 .role("USER")
                 .build();
         memberService.join(member1);
 
-        Member member2=Member.createMember()
-                .userName("배추")
-                .password(pwEncoder.encode("123"))
-                .address(new Address("감자","양상추","고구마"))
+        Member member2 = Member.createMember()
+                .userName("테스트")
+                .password(pwEncoder.encode("1234"))
+                .address(new Address("테스트1", "테스트2", "테스트3"))
                 .createDate(LocalDateTime.now())
-                .info(new Info("01012345678","naver.com"))
+                .info(new Info("01012345678", "naver.com"))
                 .role("USER")
                 .build();
         memberService.join(member2);
 
-        Member member=Member.createMember()
+        Member member3 = Member.createMember()
                 .userName("관리자")
-                .password(pwEncoder.encode("123"))
-                .address(new Address("인천","남동","아파트"))
+                .password(pwEncoder.encode("1234"))
+                .address(new Address("인천", "남동", "아파트"))
                 .createDate(LocalDateTime.now())
-                .info(new Info("01012345678","naver.com"))
+                .info(new Info("01012345678", "naver.com"))
                 .role("ADMIN")
                 .build();
-        memberService.join(member);
+        memberService.join(member3);
 
 
     }
