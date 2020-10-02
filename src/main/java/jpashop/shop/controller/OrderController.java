@@ -5,6 +5,7 @@ import jpashop.shop.dto.requestDto.OrdersRequestDto;
 import jpashop.shop.dto.responseDto.OrdersResponseDto;
 import jpashop.shop.service.OrdersService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,12 +23,14 @@ public class OrderController {
 
     private final OrdersService ordersService;
 
+    @Secured(value = {"ROLE_USER","ROLE_ADMIN"})
     @GetMapping("/order")
     public String goOrderForm(OrdersRequestDto ordersRequestDto, Model model){
         model.addAttribute("orderForm",ordersRequestDto);
         return "/shop/orderForm";
     }
 
+    @Secured(value = {"ROLE_USER","ROLE_ADMIN"})
     @PostMapping("/order")
     public String Order(OrdersRequestDto ordersRequestDto){
         Long id= ordersService.addOrders(ordersRequestDto);
@@ -41,6 +44,7 @@ public class OrderController {
         return "redirect:/shop/orders";
     }
 
+    @Secured(value = {"ROLE_USER","ROLE_ADMIN"})
     @GetMapping("/orders")
     public String getOrders(Principal principal, Model model){
         String userName = principal.getName();
@@ -49,6 +53,7 @@ public class OrderController {
         return "/shop/orders";
     }
 
+    @Secured(value = {"ROLE_USER","ROLE_ADMIN"})
     @GetMapping("/get_orders")
     public String getOrdersView(Long ordersId , Model model){
         OrdersResponseDto ordersResponseDto = ordersService.getOrdersView(ordersId);
