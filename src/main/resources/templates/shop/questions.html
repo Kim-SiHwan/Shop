@@ -32,7 +32,7 @@
             </tr>
         </table>
 
-        <form th:action="@{question}" method="get" style="margin-left: 500px">
+        <form th:action="@{questions}" method="get" style="margin-left: 700px">
             <select name="type" class="form-control" style="width: 100px; text-align: center; display:inline;">
                 <option>----</option>
                 <option value="t">Title</option>
@@ -40,7 +40,7 @@
                 <option value="c">Content</option>
             </select>
 
-            <input name="keyword" class="form-control" style="width: 440px;display:inline;">
+            <input name="keyword" class="form-control" style="width: 440px;display:inline; ">
             <button class="btn btn-primary btn-sm" type="submit" style="height: 37px">검색</button>
         </form>
 
@@ -80,7 +80,8 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-success" id="submitBtn"
                                 data-dismiss="modal"
-                        th:if="${#authentication.authorities[0].authority=='ADMIN'}">작성</button>
+
+                        th:if="${#authentication.authorities[0].authority=='ROLE_ADMIN'}">작성</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
                     </div>
 
@@ -108,6 +109,7 @@
 
             var form = $('#form');
             var qid ="";
+            var userAuthorities = [[${#authentication.authorities[0].authority}]];
             $(document).on('click', '.pagination a', function (e) {
                 e.preventDefault();
                 form.attr('method','get');
@@ -128,7 +130,12 @@
                 $('#questionTitle').html("<p>작성자 : "+qUser+"</p>" +
                     "<p>문의제목 : </p><input type='text' class='form-control' width='300' value='"+qTitle+"' readonly='readonly'>");
                 $('#questionContent').html("<p>질문내용 : </p><textarea class='form-control' rows='10' readonly='readonly'>"+qContent+"</textarea>");
-                $('#answerContent').html("<p>답변내용 : </p><textarea id='answerText' class='form-control' rows='10'>"+qAnswer+"</textarea>");
+                if(userAuthorities === 'ROLE_ADMIN') {
+                    $('#answerContent').html("<p>답변내용 : </p><textarea id='answerText' class='form-control' rows='10'>" + qAnswer + "</textarea>");
+                }else{
+                    $('#answerContent').html("<p>답변내용 : </p><textarea id='answerText' class='form-control' rows='10' readonly =readonly>" + qAnswer + "</textarea>");
+
+                }
 
             });
 

@@ -1,6 +1,8 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.opg"
-      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 
 <head>
     <meta charset="utf-8">
@@ -35,7 +37,8 @@
 <body>
 <div layout:fragment="header" id="header">
     <div id="topHeader">
-        <a th:href="@{/login}" id="loginLink">로그인</a>
+        <a sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
+        <a sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a>
         <a th:href="@{/members/join}" id="joinLink">회원가입</a>
         <a th:href="@{/shop/cart}" id="cartLink">장바구니</a>
         <a th:href="@{/shop/orders}" id="myLink">마이페이지</a>

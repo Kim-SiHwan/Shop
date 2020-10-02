@@ -171,8 +171,7 @@
             $(document).on('click', '#addReviewBtn', function (e) {
                 var reviewContent = $('#addReviewContent').val();
                 obj = {productId: [[${view.productId}]], content: reviewContent, userName: userName};
-
-                console.log(obj);
+                $('#addReviewContent').val('');
                 reviewManager.add(obj, getReviews);
             });
 
