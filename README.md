@@ -10,9 +10,7 @@
 
 ### ⚙️사용 기술 및 라이브러리
 
-`Spring Boot` `Spring Security` `Spring Data JPA` `Thymeleaf` `H2 DB`
-
-`Query DSL`
+`Spring Boot` `Spring Security` `Spring Data JPA` `Thymeleaf` `H2 DB` `Query DSL`
 
 ---
 
