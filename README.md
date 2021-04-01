@@ -1,30 +1,52 @@
 # Shop
 간단 쇼핑몰 예제
 
-사용
-<ul>
-<li>SpringBoot</li>
-<li>Thymeleaf</li>
-<li>H2database</li>
-<li>SpringDataJpa</li>
-<li>SpringSecurity</li>
-<li>QueryDSL</li>
-</ul>
+![쇼핑몰 메인](https://user-images.githubusercontent.com/66605925/113302517-1afbdf80-933b-11eb-8de9-c3b13e330710.PNG)
 
-구현 기능
-<ul>
-<li>Entity C,R,U,D</li>
-<li>회원가입 등에 대한 Validate 이용 유효성 검증</li>
-SpringSecurity
-<ul>
-<li>권한에 따른 행동제약</li>
-<li>관리자만 문의에 답변할 수 있게끔 처리</li>
-<li>Secure 사용</li>
-</ul>
-<li>비 동기식 리뷰 처리</li>
-<li>구매한 상품에 대해서만 리뷰를 작성할 수 있게끔 처리</li>
-<li>페이징</li>
-<li>검색</li>
-<li>Entity를 직접 노출하거나 받지않고 Request, Response로 나누어 사용</li>
-</ul>
+결제 시스템은 구현되지 않은 쇼핑몰입니다.
+장바구니, 구매 (결제는 이루어지지 않는 ), 구매 내역, 주문 취소, 리뷰, Q & A 기능이 구현되어 있습니다. 
+
+---
+
+### ⚙️사용 기술 및 라이브러리
+
+`Spring Boot` `Spring Security` `Spring Data JPA` `Thymeleaf` `H2 DB`
+
+`Query DSL`
+
+---
+
+### 구현 기능
+
+회원
+
+`가입` `로그인` `로그아웃`
+
+상품
+
+`생성` `조회`
+
+장바구니
+
+`생성` `수정` `삭제` `조회` 
+
+주문
+
+`생성` `수정` `삭제` `조회`
+
+리뷰
+
+`생성` `수정` `삭제` `조회`
+
+Q & A
+
+`생성` `조회`
+
+어드민
+
+`질문 답변` `구매 승인 처리` ..
+
+기타
+
+`페이징` `비 동기식 리뷰 처리` `상품 검색` `구매한 상품만 리뷰 가능`
 
